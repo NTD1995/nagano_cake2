@@ -1,0 +1,26 @@
+<div class='container-fluid  container-sidber'>
+  <div class='row no-gutters  bg-white' style="margin-bottom: 200px;">
+
+    <div class='col-md-2 bg-custom-sidebar'>
+      <%= render 'temp/sidebar' %>
+    </div>
+
+    <div class='col-md-3 mt-4 mb-5'>
+    <%= image_tag @item.get_image(300, 300), size: "300x300"%>
+    </div>
+
+    <div class='col-md-5 mt-5 mb-5'>
+      <%= form_with url: cart_items_path, method: :post, model: @cart_item do |f| %>
+        <%= f.hidden_field :item_id, value: @item.id %>
+        <h4><strong><%= @item.name %></strong></h4>
+        <p><%= @item.introduction %></p>
+        <p><b>¥ <%= number_with_delimiter((@item.price_excluding_tax * 1.1).floor) %>（税込）</b></p>
+        <%= f.label :amount, "数量" %>
+          <%= f.select :amount, [['個数選択', '0'], *(1..30).map { |i| [i, i] }] %>
+            &nbsp;&nbsp;&nbsp; <!-- ここに余白を追加 -->
+          <%= button_to "カートに入れる", cart_items_path, method: :post, class: "btn btn-success" %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

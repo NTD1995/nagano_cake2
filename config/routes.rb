@@ -15,5 +15,8 @@ Rails.application.routes.draw do
   devise_for :customers, skip: [:passwords], controllers: {
     registrations: "public/registrations",
     sessions: 'public/sessions'
-  }  
+  } 
+
+  # 商品
+  resources :items, controller: 'public/items', only: [:index, :show]   
 end
