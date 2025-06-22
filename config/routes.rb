@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   # 管理者トップページ 
   get "/admin", to: "admin/homes#top", as: "admin/top"
 
+  # 商品
+  namespace :admin do
+    resources :items 
+  end
+
   # 会員のログイン、新規登録
   devise_for :customers, skip: [:passwords], controllers: {
     registrations: "public/registrations",
