@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'genres/index'
+    get 'genres/create'
+    get 'genres/edit'
+    get 'genres/update'
+    get 'genres/destroy'
+  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
@@ -13,7 +20,8 @@ Rails.application.routes.draw do
 
   # 商品
   namespace :admin do
-    resources :items 
+    resources :items
+    resources :genres, only: [:index, :create, :edit, :update, :destroy]    
   end
 
   # 会員のログイン、新規登録
