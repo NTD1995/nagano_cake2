@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    get 'genres/index'
-    get 'genres/create'
-    get 'genres/edit'
-    get 'genres/update'
-    get 'genres/destroy'
-  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
@@ -29,6 +22,13 @@ Rails.application.routes.draw do
     registrations: "public/registrations",
     sessions: 'public/sessions'
   } 
+
+  #会員情報
+  get '/customers/my_page', to: 'public/customers#show'
+  get '/customers/information/edit', to: 'public/customers#edit'
+  patch '/customers/information', to: 'public/customers#update'
+  get '/customers/unsubscribe', to: 'public/customers#unsubscribe'
+  patch '/customers/withdraw', to: 'public/customers#withdraw'  
 
   # 商品
   resources :items, controller: 'public/items', only: [:index, :show]   

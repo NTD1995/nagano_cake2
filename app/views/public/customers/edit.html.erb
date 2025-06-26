@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row" style="margin: 20px;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;">会員情報編集</h4>
+      </div>
+    </div>
+  </div>
+
+  <%= form_with model: @customer, url: customers_information_path do |f| %>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th><%= f.label :last_name, "氏名" %></th>
+              <td>
+                <div class="row">
+                  <div class="col-md-6">
+                    <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class: "form-control", placeholder: "姓", style: "width: 200px;" %>
+                  </div>
+                  <div class="col-md-6">
+                    <%= f.text_field :first_name, autocomplete: "first_name", class: "form-control", placeholder: "名", style: "width: 200px;" %>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><%= f.label :last_name_kana, "フリガナ" %></th>
+              <td>
+                <div class="row">
+                  <div class="col-md-6">
+                    <%= f.text_field :last_name_kana, autocomplete: "last_name_kana", class: "form-control", placeholder: "セイ", style: "width: 200px;" %>
+                  </div>
+                  <div class="col-md-6">
+                    <%= f.text_field :first_name_kana, autocomplete: "first_name_kana", class: "form-control", placeholder: "メイ", style: "width: 200px;" %>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><%= f.label :post_code, "郵便番号（ハイフンなし）" %></th>
+              <td><%= f.text_field :post_code, autocomplete: "post_code", class: "form-control", placeholder: "0000000", style: "width: 200px;" %></td>
+            </tr>
+            <tr>
+              <th><%= f.label :address, "住所" %></th>
+              <td><%= f.text_area :address, autocomplete: "address", class: "form-control", placeholder: "東京都渋谷区代々木神園町0-0", style: "width: 600px;" %></td>
+            </tr>
+            <tr>
+              <th><%= f.label :phone_number, "電話番号（ハイフンなし）" %></th>
+              <td><%= f.text_field :phone_number, autocomplete: "phone_number", class: "form-control", placeholder: "00000000000", style: "width: 200px;" %></td>
+            </tr>
+            <tr>
+              <th><%= f.label :email, "メールアドレス" %></th>
+              <td><%= f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "sample@example.com", style: "width: 200px;" %></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row" style="margin-bottom: 50px;">
+          <div class="col-lg-12">
+            <div class="d-flex justify-content-center">
+              <%= f.submit '編集内容を保存', class: "btn btn-success", style: "padding: 5px 30px;" %>
+              <%= link_to '退会する', customers_unsubscribe_path, class: "btn btn-danger ml-5", style: "padding: 5px 10px;" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
