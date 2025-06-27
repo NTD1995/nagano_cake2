@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;"><%= "#{@customer.last_name}#{@customer.first_name}さんの会員詳細" %></h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>会員ID</th>
+                <td><%= @customer.id %></td>
+              </tr>
+              <tr>
+                <th>氏名</th>
+                <td><%= "#{@customer.last_name} #{@customer.first_name}" %></td>
+              </tr>
+              <tr>
+                <th>フリガナ</th>
+                <td><%= "#{@customer.last_name_kana} #{@customer.first_name_kana}" %></td>
+              </tr>
+              <tr>
+                <th>郵便番号</th>
+                <td>〒<%= @customer.post_code %></td>
+              </tr>
+              <tr>
+                <th>住所</th>
+                <td><%= @customer.address %></td>
+              </tr>
+              <tr>
+                <th>電話番号</th>
+                <td><%= @customer.phone_number %></td>
+              </tr>
+              <tr>
+                <th>メールアドレス</th>
+                <td><%= @customer.email %></td>
+              </tr>
+              <tr>
+                <th>会員ステータス</th>
+                <% if @customer.is_active? %>
+                  <td class="text-success", style="font-weight: bold;">有効</td>
+                <% else %>
+                  <td class="text-black-50", style="font-weight: bold;">退会</td>
+                <% end %>
+              </tr>
+              <tr>
+                <th></th>
+                <td>
+                  <%= link_to '編集する', edit_admin_customer_path(@customer), class: 'btn btn-success me-3' %>
+                  <%= link_to '注文履歴一覧を見る', admin_top_path, class: 'btn btn-primary' %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

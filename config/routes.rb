@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   # 商品
   namespace :admin do
     resources :items
-    resources :genres, only: [:index, :create, :edit, :update, :destroy]    
+    resources :genres, only: [:index, :create, :edit, :update, :destroy]
+    resources :customers,     only: [:index, :show, :edit, :update]      
   end
 
   # 会員のログイン、新規登録

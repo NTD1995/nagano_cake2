@@ -13,7 +13,7 @@
           <!-- Customerログイン時のヘッダー -->
           <% if customer_signed_in? && !admin_signed_in? %>
              <li class="nav-item">
-              ようこそ、<%= @customer.last_name %><#%= @customer.first_name %>さん！
+              ようこそ、<%= @customer.last_name %><%= @customer.first_name %>さん！
             </li>
 
             <li class="nav-item">
@@ -39,7 +39,7 @@
             </li>
 
             <li class="nav-item">
-              <#%= link_to '会員一覧', admin_customers_path, class: "nav_button" %>
+              <%= link_to '会員一覧', admin_customers_path, class: "nav_button" %>
             </li>
 
             <li class="nav-item">
