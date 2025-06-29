@@ -32,5 +32,13 @@ Rails.application.routes.draw do
   patch '/customers/withdraw', to: 'public/customers#withdraw'  
 
   # 商品
-  resources :items, controller: 'public/items', only: [:index, :show]   
+  resources :items, controller: 'public/items', only: [:index, :show]  
+  
+  # 注文
+  resources :orders, controller: 'public/orders', only:[:new, :create, :index, :show] do
+    collection do
+      post 'confirm'
+      get 'thanks'
+    end
+  end
 end

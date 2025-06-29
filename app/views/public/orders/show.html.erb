@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;">注文履歴詳細</h4>
+      </div>
+    </div>
+  </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <h4><strong>注文情報</strong></h4>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td style="background-color: #f0f0f0;">注文日</td>
+                <td><%= @order.created_at.strftime('%Y/%m/%d') %></td>
+              </tr>
+              <tr>
+                <td style="background-color: #f0f0f0;">配送先</td>
+                <td>〒<%= @order.post_code %><br><%= @order.address %><br><%= @order.name %></td>
+              </tr>
+              <tr>
+                <td style="background-color: #f0f0f0;">支払方法</td>
+                <td><%= @order.payment_method_i18n %></td>
+              </tr>
+              <tr>
+                <td style="background-color: #f0f0f0;">ステータス</td>
+                <td><%= @order.status_i18n %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-lg-6">
+          <h4><strong>請求情報</strong></h4>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td style="background-color: #f0f0f0;">商品合計</td>
+                <td><%= number_with_delimiter(@cart_items_price) %></td>
+              </tr>
+              <tr>
+                <td style="background-color: #f0f0f0;">配送料</td>
+                <td><%= number_with_delimiter(@order.shipping_fee) %></td>
+              </tr>
+              <tr>
+                <td style="background-color: #f0f0f0;"><strong>ご請求額</strong></td>
+                <td><%= number_with_delimiter(@total_price) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 200px;">
+        <div class="col-lg-12">
+          <h4><strong>注文内容</strong></h4>
+          <table class="table table-bordered">
+            <thead style="background-color: #f0f0f0;">
+              <tr>
+                <th>商品</th>
+                <th>単価(税込)</th>
+                <th>個数</th>
+                <th>小計</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @order_details.each do |order_detail| %>
+                <tr>
+                  <td><%= order_detail.item.name %></td>
+                  <td><%= number_with_delimiter(order_detail.purchase_price) %></td>
+                  <td><%= order_detail.quantity %></td>
+                  <td><%= number_with_delimiter(order_detail.quantity * order_detail.purchase_price) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
