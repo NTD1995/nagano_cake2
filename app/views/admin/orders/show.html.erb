@@ -1,0 +1,102 @@
+<!-- 注文詳細画面(注文ステータス更新) -->
+<%= form_with model: [:admin, @order_update_target] do |form_o_u_t| %>
+  <div class = "container">
+    <div class="row" style="margin: 40px 0;">
+      <div class="col-lg-12 d-flex align-items-center justify-content-between">
+        <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block;">
+          <h4 style="margin: 0;">注文履歴詳細</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class = "row">
+      <div class = "col-md-9">
+        <table class = "table table-hover table-inverse">
+          <tbody>
+            <tr>
+              <td><strong>購入者</strong></td>
+              <td><%= "#{@order_update_target.customer.last_name} #{@order_update_target.customer.first_name}" %></td>
+            </tr>
+            <tr>
+              <td><strong>注文日</strong></td>
+              <td><%= l @order_update_target.created_at %></td>
+            </tr>
+            <tr>
+              <td><strong>配送先</strong></td>
+              <td>
+                <%= @order_update_target.address %></br>
+                <%= @order_update_target.name %>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>支払い方法</strong></td>
+              <td><%= @order_update_target.payment_method_i18n %></td>
+            </tr>
+            <tr>
+              <td><strong>注文ステータス</strong></td>
+              <td><%= form_o_u_t.select :status, [["入金待ち", :wait_payment], ["入金確認", :confirm_payment], ["製作中", :in_production], ["発送準備中", :in_shipping], ["発送済み", :done_shipping]] %></td>
+              <td><%= form_o_u_t.submit "更新", class: "btn btn-success" %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- 注文詳細画面(製作ステータス更新) -->
+<div class = "container">
+  <div class = "row">
+    <div class = "col-md-9">
+      <table class = "table table-hover table-inverse">
+        <thead>
+          <th>商品名</th>
+          <th>単価(税込)</th>
+          <th>数量</th>
+          <th>小計</th>
+          <th>製作ステータス</th>
+        </thead>
+
+        <tbody>
+          <% @order_details_index.each do |order_detail| %>
+            <tr>
+              <%= form_with model: OrderDetail.find(order_detail.id), url: admin_order_orders_detail_path(order_detail.order_id, order_detail.id), method: :patch do |form_o_d_i| %>
+                <td><%= order_detail.item.name %></td>
+                <td><%= order_detail.purchase_price %></td>
+                <td><%= order_detail.quantity %></td>
+                <td><%= order_detail.order_detail_subtotal %></td>
+                <td><%= form_o_d_i.select :status, [["製作不可", :not_production], ["製作待ち", :wait_production], ["製作中", :in_production], ["製作完了", :done_production]] %></td>
+                <td><%= form_o_d_i.submit "更新", class: "btn btn-success" %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class = "col-md-3">
+      <table class = "bottom_zero table table-hover table-inverse">
+        <tbody>
+          <tr>
+            <!-- 小計算出 -->
+            <% total_price = 0 %>
+            <% @order_details_index.each do |order_detail| %>
+              <% total_price += order_detail.order_detail_subtotal %>
+            <% end %>
+
+            <td>商品合計</td>
+            <td><%= total_price %>円</td>
+          </tr>
+          <tr>
+            <td>送料</td>
+            <td><%= Order.find(params[:id]).shipping_fee %>円</td>
+          </tr>
+          <tr>
+            <td>請求金額合計</td>
+            <td><%= total_price + Order.find(params[:id]).shipping_fee %>円</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
