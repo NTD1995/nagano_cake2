@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'order_details/update'
+  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
@@ -16,7 +19,9 @@ Rails.application.routes.draw do
     resources :items
     resources :genres, only: [:index, :create, :edit, :update, :destroy]
     resources :customers,     only: [:index, :show, :edit, :update]  
-    resources :orders,        only: [:show, :update]    
+    resources :orders,        only: [:show, :update] do
+      resources :orders_details, only: [:update]
+    end    
   end
 
   # 会員のログイン、新規登録
