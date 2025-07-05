@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    get 'order_details/update'
-  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
@@ -47,4 +44,11 @@ Rails.application.routes.draw do
       get 'thanks'
     end
   end
+  
+  # カート内商品
+  resources :cart_items, controller: 'public/cart_items', only: [:index, :create, :update, :destroy] do
+    collection do
+      delete :destroy_all
+    end
+  end  
 end
