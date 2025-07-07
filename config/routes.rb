@@ -50,5 +50,8 @@ Rails.application.routes.draw do
     collection do
       delete :destroy_all
     end
-  end  
+  end
+
+  # 配送先
+  resources :addresses, controller: 'public/addresses', only: [:index, :create, :edit, :update, :destroy]  
 end
