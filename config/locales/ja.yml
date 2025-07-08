@@ -4,6 +4,18 @@ ja:
       payment_method:
         credit_card: "クレジットカード"
         transfer: "銀行振込"
+      status:
+        wait_payment: "入金待ち"
+        confirm_payment: "入金確認"
+        in_production: "製作中"
+        in_shipping: "発送準備中"
+        done_shipping: "発送済み"
+    order_detail:
+      status:
+        not_production: "製作不可"
+        wait_production_pending: "製作待ち"
+        in_production : "製作中"
+        done_production : "製作完了"
   activerecord:
     errors:
       messages:
@@ -21,7 +33,7 @@ ja:
     - 金
     - 土
     abbr_month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月
@@ -47,7 +59,7 @@ ja:
       long: "%Y年%m月%d日(%a)"
       short: "%m/%d"
     month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月
@@ -108,6 +120,7 @@ ja:
       not_an_integer: は整数で入力してください
       odd: は奇数にしてください
       other_than: は%{count}以外の値にしてください
+      password_too_long: が長すぎます
       present: は入力しないでください
       required: を入力してください
       taken: はすでに存在します
@@ -181,7 +194,7 @@ ja:
   time:
     am: 午前
     formats:
-      default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      default: "%Y/%m/%d %H:%M:%S"
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
