@@ -1,0 +1,41 @@
+<!-- 管理者用トップページ(注文履歴一覧) -->
+<div class = "container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block;">
+        <h4 style="margin: 0;">注文履歴一覧</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class = "row" style="margin-bottom: 100px;">
+    <div class = "col-md-9">
+      <table class = "table table-hover table-inverse">
+        <thead>
+          <th>購入日時</th>
+          <th>購入者</th>
+          <th>注文個数</th>
+          <th>注文ステータス</th>
+        </thead>
+
+        <tbody>
+          <% @order_all.each do |order| %>
+            <tr>
+              <td>
+                <a href = "<%= admin_order_path(order.id) %>">
+                  <%= l order.created_at %>
+                </a>
+              </td>
+              <td>
+                <%= "#{Customer.find(order.customer_id).last_name}#{Customer.find(order.customer_id).first_name}" %>
+              </td>
+              <td><%= order.sum_quantity(order.id) %></td>
+              <td><%= order.status_i18n %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= paginate @order_all %>
+</div>
