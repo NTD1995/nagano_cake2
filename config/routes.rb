@@ -20,8 +20,6 @@ Rails.application.routes.draw do
       resources :orders_details, only: [:update]
     end    
   end
-  # # 注文履歴一覧
-  get "/admin", to: "admin/homes#top", as: "admin/top"
 
   # 会員のログイン、新規登録
   devise_for :customers, skip: [:passwords], controllers: {
