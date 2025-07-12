@@ -1,0 +1,32 @@
+<div class='container-fluid container-sidber'>
+  <div class='row no-gutters  bg-white'>
+    <div class='col-md-10'>
+      <div class="p-3 mb-2">
+      <%= content_tag :div, class: "product-header" do %>
+        <%= content_tag :span, "商品一覧", class: "header-text", style: "font-weight: bold;" %>
+        <%= content_tag :span, "（全#{@total_item_count}件）", class: "count-text" %>
+      <% end %>
+      </div>
+      <div class="row">
+        <% @items.each do |item| %>
+          <div class="col-md-3 mb-5">
+            <div class="card border-0 mx-auto mt-4" style="height: auto;">
+              <div class="card-body py-0">
+                <%= link_to item_path(item) do %>
+                  <%= image_tag item.get_image(300, 300), class: "card-img-top" %>
+                <% end %>
+                <p class="card-title"><%= item.name %></p>
+                <p class="card-text">¥<%= number_with_delimiter(item.price_excluding_tax) %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="pagination-container text-center">
+      <%= paginate @items %>
+    </div>
+
+  </div>
+</div>

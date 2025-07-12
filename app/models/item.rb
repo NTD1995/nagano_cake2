@@ -23,4 +23,17 @@ class Item < ApplicationRecord
     end
     image.variant(resize_to_limit: [width, height]).processed
   end
+
+#モデルのcontentカラムに対して検索
+  def self.search_for(content, method)
+    if method == 'perfect'
+      Item.where(content: content)
+    elsif method == 'forward'
+      Item.where('content LIKE ?', content + '%')
+    elsif method == 'backward'
+      Item.where('content LIKE ?', '%' + content)
+    else
+      Item.where('content LIKE ?', '%' + content + '%')
+    end
+  end    
 end

@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <% if @records.present? %>
+        <% if @model == 'customer' %>
+          <h4><strong><%= @content %>の検索結果一覧</strong></h4>
+            <%= render 'public/customers/index', customers: @records %>
+        <% elsif @model == 'item' %>
+          <h4><strong><%= @content %>の検索結果一覧</strong></h4>
+            <%= render 'public/items/index', items: @records %>
+        <% end %>
+      <% else %>
+        <h4><strong>検索結果がありません</strong></h4>
+      <% end %>            
+    </div>
+  </div>
+</div>

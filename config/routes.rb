@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :public do
+    get 'searches/search'
+  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
@@ -53,5 +56,9 @@ Rails.application.routes.draw do
   end
 
   # 配送先
-  resources :addresses, controller: 'public/addresses', only: [:index, :create, :edit, :update, :destroy]  
+  resources :addresses, controller: 'public/addresses', only: [:index, :create, :edit, :update, :destroy]
+  
+  # 検索一覧
+  get "search", to: "public/searches#search", as: "search"
+    
 end
