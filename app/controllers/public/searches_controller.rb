@@ -3,16 +3,19 @@ class Public::SearchesController < ApplicationController
   
   # 検索処理
   def search
-    @model = params[:model]
-    @content = params[:content]
-    @method = params[:method]
-    
-    if @model  == "customer"
-      @records = Customer.search_for(@content, @method)
-    else
-      @records = Item.search_for(@content, @method)
-    end
-    @records = @records.page(params[:page]).per(1)
-  end   
+    @keyword = params[:keyword]
+    @target = params[:target] 
+    @match_type = params[:match_type] 
 
-end
+    @results = case @target
+               when 'item'
+                 Item.search(@keyword, @match_type)
+               when 'customer'
+                 Customer.search(@keyword, @match_type)
+               else
+                 []
+               end
+  end  
+
+end  
+

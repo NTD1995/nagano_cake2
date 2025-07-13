@@ -24,16 +24,21 @@ class Item < ApplicationRecord
     image.variant(resize_to_limit: [width, height]).processed
   end
 
-#モデルのcontentカラムに対して検索
-  def self.search_for(content, method)
-    if method == 'perfect'
-      Item.where(content: content)
-    elsif method == 'forward'
-      Item.where('content LIKE ?', content + '%')
-    elsif method == 'backward'
-      Item.where('content LIKE ?', '%' + content)
+  def self.search(keyword, match_type)
+    return all if keyword.blank?
+
+    case match_type
+    when 'exact'
+      where(name: keyword)
+    when 'partial'
+      where('name LIKE ?', "%#{keyword}%")
+    when 'forward'
+      where('name LIKE ?', "#{keyword}%")
+    when 'backward'
+      where('name LIKE ?', "%#{keyword}")
     else
-      Item.where('content LIKE ?', '%' + content + '%')
+      none
     end
-  end    
+  end
+
 end

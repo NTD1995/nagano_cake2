@@ -20,16 +20,20 @@ class Customer < ApplicationRecord
     self.is_active
   end
 
-  #モデルのnameカラムに対して検索
-  def self.search_for(content, method)
-    if method == 'perfect'
-      Customer.where('last_name = ? OR first_name = ?', content, content)
-    elsif method == 'forward'
-      Customer.where('last_name LIKE ? OR first_name LIKE ?', "#{content}%", "#{content}%")
-    elsif method == 'backward'
-      Customer.where('last_name LIKE ? OR first_name LIKE ?', "%#{content}", "%#{content}")
+  def self.search(keyword, match_type)
+    return all if keyword.blank?
+
+    case match_type
+    when 'exact'
+      where('last_name = ? OR first_name = ?', keyword, keyword)
+    when 'partial'
+      where('last_name LIKE ? OR first_name LIKE ?', "%#{keyword}%", "%#{keyword}%")
+    when 'forward'
+      where('last_name LIKE ? OR first_name LIKE ?', "#{keyword}%", "#{keyword}%")
+    when 'backward'
+      where('last_name LIKE ? OR first_name LIKE ?', "%#{keyword}", "%#{keyword}")
     else
-      Customer.where('last_name LIKE ? OR first_name LIKE ?', "%#{content}%", "%#{content}%")
+      none
     end
-  end   
+  end  
 end
