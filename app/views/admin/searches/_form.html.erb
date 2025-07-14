@@ -1,5 +1,5 @@
-<% if customer_signed_in? %>
-  <form action="/admin/search" method="get" style="display:flex; gap:8px;">
+<% if admin_signed_in? %>
+  <form action="/search" method="get" style="display:flex; gap:8px;">
     <input type="text" name="keyword" placeholder="検索キーワード" value="<%= params[:keyword] %>">
 
     <select name="target">

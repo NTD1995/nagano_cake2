@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h4><strong>検索結果</strong></h4>
+      <% if @results.any? %>
+        <ul>
+          <% @results.each do |result| %>
+            <li>
+              <% if params[:target] == 'item' %>
+                商品名: <%= result.name %>
+              <% else %>
+                会員名: <%= result.last_name %> <%= result.first_name %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>該当するデータが見つかりませんでした。</p>
+      <% end %>
+    </div>
+  </div>
+</div>

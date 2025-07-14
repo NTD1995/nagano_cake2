@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  namespace :public do
-    get 'searches/search'
-  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
@@ -14,14 +11,20 @@ Rails.application.routes.draw do
   # 管理者トップページ 
   get "/admin", to: "admin/homes#top", as: "admin/top"
 
-  # 商品
   namespace :admin do
+      # 商品
     resources :items
+    # ジャンル
     resources :genres, only: [:index, :create, :edit, :update, :destroy]
-    resources :customers,     only: [:index, :show, :edit, :update]  
+    # 会員
+    resources :customers,     only: [:index, :show, :edit, :update] 
+    # 注文 
     resources :orders,        only: [:show, :update] do
+    # 注文更新
       resources :orders_details, only: [:update]
-    end    
+    end
+    # 検索一覧 
+    get "search", to: "searches#search", as: "search"        
   end
 
   # 会員のログイン、新規登録
