@@ -62,6 +62,6 @@ Rails.application.routes.draw do
   resources :addresses, controller: 'public/addresses', only: [:index, :create, :edit, :update, :destroy]
   
   # 検索一覧
-  get "search", to: "public/searches#search", as: "search"
+  get "search", to: "public/searches#search", as: "public_search"
     
 end

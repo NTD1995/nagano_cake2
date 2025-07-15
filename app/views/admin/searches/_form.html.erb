@@ -1,20 +1,16 @@
 <% if admin_signed_in? %>
-  <form action="/search" method="get" style="display:flex; gap:8px;">
-    <input type="text" name="keyword" placeholder="検索キーワード" value="<%= params[:keyword] %>">
+  <%= form_with url: admin_search_path, method: :get, local: true, html: { style: "display:flex; gap:8px;" } do |form| %>
+    <%= form.text_field :keyword, placeholder: "検索キーワード", value: params[:keyword] %>
 
-    <select name="target">
-      <option value="item" <%= 'selected' if params[:target] == 'item' %>>商品</option>
-      <option value="customer" <%= 'selected' if params[:target] == 'customer' %>>会員</option>
-    </select>
+    <%= form.select :target, options_for_select([["商品", "item"], ["会員", "customer"]], params[:target]) %>
 
-    <select name="match_type">
-      <option value="exact" <%= 'selected' if params[:match_type] == 'exact' %>>完全一致</option>
-      <option value="partial" <%= 'selected' if params[:match_type] == 'partial' %>>部分一致</option>
-      <option value="forward" <%= 'selected' if params[:match_type] == 'forward' %>>前方一致</option>
-      <option value="backward" <%= 'selected' if params[:match_type] == 'backward' %>>後方一致</option>
-    </select>
+    <%= form.select :match_type, options_for_select([
+        ["完全一致", "exact"],
+        ["部分一致", "partial"],
+        ["前方一致", "forward"],
+        ["後方一致", "backward"]
+      ], params[:match_type]) %>
 
-    <button type="submit">検索</button>
-  </form>
-
+    <%= form.submit "検索" %>
+  <% end %>
 <% end %>
