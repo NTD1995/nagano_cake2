@@ -1,21 +1,34 @@
 class Public::SearchesController < ApplicationController
   before_action :authenticate_customer!
-  
-  # 検索処理
+ 
   def search
-    @keyword = params[:keyword]
-    @target = params[:target] 
-    @match_type = params[:match_type] 
+    keyword = params[:keyword]
+    target = params[:target]
+    match_type = params[:match_type]
 
-    @results = case @target
-               when 'item'
-                 Item.search(@keyword, @match_type)
-               when 'customer'
-                 Customer.search(@keyword, @match_type)
-               else
-                 []
-               end
-  end  
+    case target
+    when "item"
+      @items = Item.where("name LIKE ?", match_keyword(keyword, match_type)).page(params[:page])
+    when "customer"
+      @customers = Customer.where("last_name LIKE ? OR first_name LIKE ?", *[match_keyword(keyword, match_type)]*2).page(params[:page])
+    end
+  end
 
-end  
+  private
 
+  def match_keyword(keyword, match_type)
+    case match_type
+    when "exact"
+      keyword
+    when "partial"
+      "%#{keyword}%"
+    when "forward"
+      "#{keyword}%"
+    when "backward"
+      "%#{keyword}"
+    else
+      "%#{keyword}%"
+    end
+  end
+  
+end

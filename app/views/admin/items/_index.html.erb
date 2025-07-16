@@ -26,7 +26,7 @@
           <% @items.each do |item| %>
             <tr>
               <td><%= item.id %></td>
-              <td><%= link_to item.name, item_path(item), style: "color: black; text-decoration: underline;" %></td>
+              <td><%= link_to item.name, admin_item_path(item), style: "color: black; text-decoration: underline;" %></td>
               <td><%= item.price_excluding_tax %></td>
               <td><%= item.genre&.name %></td>
                 <% if item.is_sale? %>
