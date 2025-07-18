@@ -3,6 +3,8 @@ class Item < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   has_many :order_details
   has_many :orders, through: :order_details
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_by, through: :favorites, source: :customer
 
   belongs_to :genre
   has_one_attached :image
