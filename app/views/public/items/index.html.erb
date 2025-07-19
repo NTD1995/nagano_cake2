@@ -17,6 +17,17 @@
                 <% end %>
                 <p class="card-title"><%= item.name %></p>
                 <p class="card-text">¥<%= number_with_delimiter(item.price_excluding_tax) %></p>
+                <% if customer_signed_in? %>
+                  <% if current_customer.favorite_items.exists?(item.id) %>
+                    <%= button_to item_favorite_path(item), method: :delete, class: "favorite-button" do %>
+                      <span style="color:red;">♥</span>
+                    <% end %>
+                  <% else %>
+                    <%= button_to item_favorite_path(item), method: :post, class: "favorite-button" do %>
+                      <span style="color:gray;">♡</span>
+                    <% end %>
+                  <% end %>
+                <% end %>                 
               </div>
             </div>
           </div>

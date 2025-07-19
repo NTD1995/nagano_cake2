@@ -2,7 +2,8 @@
   <div class='row no-gutters  bg-white' style="margin-bottom: 200px;">
 
     <div class='col-md-3 mt-4 mb-5'>
-    <%= image_tag @item.get_image(300, 300), size: "300x300"%>
+    <%= image_tag @item.get_image(100, 100), class: "card-img-top"%>
+
     </div>
 
     <div class='col-md-5 mt-5 mb-5'>
@@ -13,9 +14,20 @@
         <p><b>¥ <%= number_with_delimiter((@item.price_excluding_tax * 1.1).floor) %>（税込）</b></p>
         <%= f.label :amount, "数量" %>
           <%= f.select :amount, [['個数選択', '0'], *(1..30).map { |i| [i, i] }] %>
-            &nbsp;&nbsp;&nbsp; <!-- ここに余白を追加 -->
+            &nbsp;&nbsp;&nbsp; <!-- ここに余白を追加 -->        
           <%= button_to "カートに入れる", cart_items_path, method: :post, class: "btn btn-success" %>
       <% end %>
+      <% if customer_signed_in? %>
+        <% if current_customer.favorite_items.exists?(@item.id) %>
+          <%= button_to item_favorite_path(@item), method: :delete, class: "favorite-button" do %>
+            <span style="color:red;">♥</span>
+          <% end %>
+        <% else %>
+          <%= button_to item_favorite_path(@item), method: :post, class: "favorite-button" do %>
+            <span style="color:gray;">♡</span>
+          <% end %>
+        <% end %>
+      <% end %>          
     </div>
 
   </div>

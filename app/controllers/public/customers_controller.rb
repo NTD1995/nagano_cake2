@@ -30,6 +30,11 @@ class Public::CustomersController < ApplicationController
     redirect_to root_path
   end
 
+  def favorites
+    @favorite_items = current_customer.favorite_items
+  end
+
+
   private
 
   def customer_params

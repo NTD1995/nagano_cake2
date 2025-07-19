@@ -39,9 +39,12 @@ Rails.application.routes.draw do
   patch '/customers/information', to: 'public/customers#update'
   get '/customers/unsubscribe', to: 'public/customers#unsubscribe'
   patch '/customers/withdraw', to: 'public/customers#withdraw'  
-
+  get 'customers/favorites', to: 'customers#favorites', as: 'customer_favorites'
+  
   # 商品
-  resources :items, controller: 'public/items', only: [:index, :show]  
+  resources :items, controller: 'public/items', only: [:index, :show] do
+    resource :favorite, only: [:create, :destroy], controller: 'public/favorites', as: :favorite
+  end
   
   # 注文
   resources :orders, controller: 'public/orders', only:[:new, :create, :index, :show] do
