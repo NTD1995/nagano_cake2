@@ -8,6 +8,7 @@ class Customer < ApplicationRecord
   has_many :addresses
   has_many :favorites, dependent: :destroy
   has_many :favorite_items, through: :favorites, source: :item
+  has_many :reviews, dependent: :destroy
 
   validates :last_name, presence: true
   validates :first_name, presence: true

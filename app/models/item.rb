@@ -5,6 +5,7 @@ class Item < ApplicationRecord
   has_many :orders, through: :order_details
   has_many :favorites, dependent: :destroy
   has_many :favorited_by, through: :favorites, source: :customer
+  has_many :reviews, dependent: :destroy
 
   belongs_to :genre
   has_one_attached :image
