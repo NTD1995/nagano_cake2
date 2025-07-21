@@ -43,7 +43,10 @@ Rails.application.routes.draw do
   
   # 商品
   resources :items, controller: 'public/items', only: [:index, :show] do
+    # お気に入り
     resource :favorite, only: [:create, :destroy], controller: 'public/favorites', as: :favorite
+    # レビュー
+    resources :reviews, only: [:create, :destroy], controller: 'public/reviews'       
   end
   
   # 注文

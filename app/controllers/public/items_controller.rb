@@ -14,5 +14,7 @@ class Public::ItemsController < ApplicationController
     @customer = current_customer
     @item = Item.find(params[:id])
     @cart_item = CartItem.new
+    @review = Review.new
+    @reviews = @item.reviews.order(created_at: :desc)    
   end  
 end
