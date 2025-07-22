@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_20_135034) do
+ActiveRecord::Schema.define(version: 2025_07_22_072852) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -154,6 +154,16 @@ ActiveRecord::Schema.define(version: 2025_07_20_135034) do
     t.index ["item_id"], name: "index_reviews_on_item_id"
   end
 
+  create_table "view_histories", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id", "item_id"], name: "index_view_histories_on_customer_id_and_item_id", unique: true
+    t.index ["customer_id"], name: "index_view_histories_on_customer_id"
+    t.index ["item_id"], name: "index_view_histories_on_item_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "customers"
@@ -163,4 +173,6 @@ ActiveRecord::Schema.define(version: 2025_07_20_135034) do
   add_foreign_key "items", "genres"
   add_foreign_key "reviews", "customers"
   add_foreign_key "reviews", "items"
+  add_foreign_key "view_histories", "customers"
+  add_foreign_key "view_histories", "items"
 end
