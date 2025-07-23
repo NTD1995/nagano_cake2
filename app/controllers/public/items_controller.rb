@@ -15,6 +15,23 @@ class Public::ItemsController < ApplicationController
     @item = Item.find(params[:id])
     @cart_item = CartItem.new
     @review = Review.new
-    @reviews = @item.reviews.order(created_at: :desc)    
-  end  
+    @reviews = @item.reviews.order(created_at: :desc)   
+    if customer_signed_in?
+      @view_history = ViewHistory.find_or_initialize_by(customer_id: current_customer.id, item_id: @item.id)
+      @view_history.touch
+    end
+    @recommend_items = recommended_items(@item)         
+    end
+
+
+    
+  private
+
+  # 閲覧履歴に基づくおすすめ商品
+  def recommended_items(item)
+    # この商品を見た他ユーザーが見ている商品一覧（重複なし・自分が見た商品除外）
+    customer_ids = item.view_histories.pluck(:customer_id)
+    item_ids = ViewHistory.where(customer_id: customer_ids).where.not(item_id: item.id).pluck(:item_id)
+    Item.where(id: item_ids.uniq).limit(5)
+  end    
 end

@@ -29,6 +29,28 @@
         <% end %>
       <% end %>
 
+      <% if @view_history %>
+        最終閲覧日時：<%= @view_history.updated_at.strftime("%Y年%m月%d日 %H:%M") %>
+      <% end %>
+      
+      <h4>この商品を見た人はこんな商品も見ています</h4>
+
+      <% if @recommend_items.present? %>
+        <ul>
+          <% @recommend_items.each do |recommend| %>
+            <li>
+              <%= link_to recommend.name, public_item_path(recommend) %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>おすすめの商品はまだありません。</p>
+      <% end %>
+
+
+
+
+
       <h4 style="margin-top: 100px;"><strong>レビュー投稿<strong></h4>
       <% if customer_signed_in? %>
         <%= form_with model: [@item, Review.new], url: item_reviews_path(@item), local: true do |f| %>
