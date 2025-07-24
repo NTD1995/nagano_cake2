@@ -18,7 +18,11 @@ class Public::ItemsController < ApplicationController
     @reviews = @item.reviews.order(created_at: :desc)   
     if customer_signed_in?
       @view_history = ViewHistory.find_or_initialize_by(customer_id: current_customer.id, item_id: @item.id)
-      @view_history.touch
+      if @view_history.new_record?
+        @view_history.save 
+      else
+        @view_history.touch
+      end  
     end
     @recommend_items = recommended_items(@item)         
     end

@@ -1,4 +1,4 @@
-<div class='container-fluid  container-sidber'>
+<div class='container-fluid  container-sidebar'>
   <div class='row no-gutters  bg-white' style="margin-bottom: 200px;">
 
     <div class='col-md-3 mt-4 mb-5'>
@@ -33,13 +33,12 @@
         最終閲覧日時：<%= @view_history.updated_at.strftime("%Y年%m月%d日 %H:%M") %>
       <% end %>
       
-      <h4>この商品を見た人はこんな商品も見ています</h4>
-
+      <h5>この商品を見た人は<br>こんな商品も見ています</h5>
       <% if @recommend_items.present? %>
         <ul>
           <% @recommend_items.each do |recommend| %>
             <li>
-              <%= link_to recommend.name, public_item_path(recommend) %>
+              <%= link_to recommend.name, item_path(recommend) %>
             </li>
           <% end %>
         </ul>
@@ -47,11 +46,7 @@
         <p>おすすめの商品はまだありません。</p>
       <% end %>
 
-
-
-
-
-      <h4 style="margin-top: 100px;"><strong>レビュー投稿<strong></h4>
+      <h4><strong>レビュー投稿<strong></h4>
       <% if customer_signed_in? %>
         <%= form_with model: [@item, Review.new], url: item_reviews_path(@item), local: true do |f| %>
           <div>
@@ -70,7 +65,7 @@
 
       <hr>
 
-      <h4><strong>レビュー一覧<strong></h4>
+      <h4><strong>レビュー一覧</strong></h4>
       <% @item.reviews.order(created_at: :desc).each do |review| %>
         <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
           <strong><%= "#{review.customer.last_name} #{review.customer.first_name}" %></strong>さんの
