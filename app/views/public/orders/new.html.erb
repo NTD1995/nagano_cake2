@@ -67,6 +67,13 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="col-lg-12">     
+            <%= f.label :coupon_code, "クーポンコード" %>
+            <%= f.text_field :coupon_code, name: "order[coupon_code]" %>
+          </div>
+        </div> 
+
         <div class="row" style="margin-bottom: 200px;">
           <div class="col-lg-12 d-flex justify-content-center">
             <%= f.submit "確認画面へ進む", class: "btn btn-primary" %>

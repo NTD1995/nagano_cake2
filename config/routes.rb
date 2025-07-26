@@ -21,10 +21,12 @@ Rails.application.routes.draw do
     # 注文 
     resources :orders,        only: [:show, :update] do
     # 注文更新
-      resources :orders_details, only: [:update]
+    resources :orders_details, only: [:update]
     end
     # 検索一覧 
-    get "search", to: "searches#search", as: "search"        
+    get "search", to: "searches#search", as: "search"   
+    # クーポン
+    resources :coupons     
   end
 
   # 会員のログイン、新規登録
@@ -52,8 +54,12 @@ Rails.application.routes.draw do
   # 注文
   resources :orders, controller: 'public/orders', only:[:new, :create, :index, :show] do
     collection do
+      # 注文情報確認
       post 'confirm'
+      # 注文感謝
       get 'thanks'
+      # クーポン適用
+      post 'apply_coupon'      
     end
   end
   

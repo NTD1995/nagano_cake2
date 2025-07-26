@@ -50,6 +50,12 @@
                 <td style="background-color: #f0f0f0;">商品合計</td>
                 <td><%= number_with_delimiter(@cart_items_price) %></td>
               </tr>
+              <% if @discount_price.present? && @discount_price > 0 %>
+                <tr>
+                  <td style="background-color: #f0f0f0;">クーポン割引</td>
+                  <td>-<%= number_with_delimiter(@discount_price) %></td>
+                </tr>
+              <% end %>
               <tr>
                 <td style="background-color: #f0f0f0;">請求額</td>
                 <td><%= number_with_delimiter(@total_price) %></td>
