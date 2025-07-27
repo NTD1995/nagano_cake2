@@ -50,10 +50,10 @@
                 <td style="background-color: #f0f0f0;">商品合計</td>
                 <td><%= number_with_delimiter(@cart_items_price) %></td>
               </tr>
-              <% if @discount_price.present? && @discount_price > 0 %>
+              <% if @discount_price.to_i > 0 %>
                 <tr>
                   <td style="background-color: #f0f0f0;">クーポン割引</td>
-                  <td>-<%= number_with_delimiter(@discount_price) %></td>
+                  <td>-<%= number_with_delimiter(@discount_price.to_i) %></td>
                 </tr>
               <% end %>
               <tr>
