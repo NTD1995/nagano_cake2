@@ -64,25 +64,26 @@ class Public::OrdersController < ApplicationController
     @cart_items = CartItem.where(customer_id: current_customer.id)
 
     ary = []
-      @cart_items.each do |cart_item|
-        ary << cart_item.item.price_excluding_tax*cart_item.amount
-      end
-      @cart_items_price = ary.sum
-      @order.total_price = @order.shipping_fee + @cart_items_price
+    @cart_items.each do |cart_item|
+      ary << cart_item.item.price_excluding_tax*cart_item.amount
+    end
+    @cart_items_price = ary.sum
+    @order.total_price = @order.shipping_fee + @cart_items_price
 
-      # 小計
-      cart_total = @cart_items.sum do |item|
-        (item.item.price_excluding_tax * 1.1).floor * item.amount
-      end
-      # クーポン適用
-      coupon = Coupon.find_by(code: params[:order][:coupon_code])
+    # 小計
+    cart_total = @cart_items.sum do |item|
+      (item.item.price_excluding_tax * 1.1).floor * item.amount
+    end
+    # クーポン適用
+    coupon = Coupon.find_by(code: params[:order][:coupon_code])
 
-      if coupon && coupon.available_for?(current_customer, cart_total)
-        @order.total_price = cart_total - coupon.discount_price
-      else
-        @order.total_price = cart_total
-        coupon = nil
-      end      
+    if coupon && coupon.available_for?(current_customer, cart_total)
+      @order.total_price = cart_total - coupon.discount_price
+    else
+      @order.discount_price = 0
+      @order.total_price = cart_total
+      coupon = nil
+    end      
 
     @order.payment_method = params[:order][:payment_method].presence || "credit_card"
     if @order.payment_method == "credit_card"
@@ -122,10 +123,8 @@ class Public::OrdersController < ApplicationController
       end
       @cart_items.destroy_all
       # クーポン使用履歴保存
-        if coupon
+      if coupon
           CouponUsage.create!(customer: current_customer, coupon: coupon, used_at: Time.current)
-        end
-
         redirect_to thanks_orders_path
       else
         render :new
@@ -141,7 +140,8 @@ class Public::OrdersController < ApplicationController
       order_details = OrderDetail.where(order_id: order.id)
       shipping_fee = order.shipping_fee.to_i
       cart_items_price = order_details.sum { |detail| detail.purchase_price.to_i * detail.quantity.to_i }
-      order.total_price = shipping_fee + cart_items_price  # 合計金額を計算
+      discount = order.discount_price.to_i || 0
+      order.total_price = shipping_fee + cart_items_price - discount # 合計金額を計算
     end  
   end
 
@@ -152,7 +152,8 @@ class Public::OrdersController < ApplicationController
     @order_details = @order.order_details    
     @shipping_fee = @order.shipping_fee.to_i
     @cart_items_price = @order_details.sum { |detail| detail.purchase_price.to_i * detail.quantity.to_i }
-    @total_price = @shipping_fee + @cart_items_price
+    @discount_price = @order.discount_price.to_i || 0
+    @total_price = @shipping_fee + @cart_items_price - @discount_price
   end
 
   def thanks # 注文完了画面

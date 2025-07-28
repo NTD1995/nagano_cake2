@@ -45,6 +45,10 @@
                 <td><%= number_with_delimiter(@order.shipping_fee) %></td>
               </tr>
               <tr>
+                <td style="background-color: #f0f0f0;">クーポン割引額</td>
+                <td><%= number_with_delimiter(@order.discount_price) %></td>
+              </tr>              
+              <tr>
                 <td style="background-color: #f0f0f0;"><strong>ご請求額</strong></td>
                 <td><%= number_with_delimiter(@total_price) %></td>
               </tr>
