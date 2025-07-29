@@ -46,7 +46,11 @@
               </tr>
               <tr>
                 <td style="background-color: #f0f0f0;">クーポン割引額</td>
-                <td><%= number_with_delimiter(@order.discount_price) %></td>
+                <td>
+                  <% if @order.discount_price.present? && @order.discount_price > 0 %>
+                    <%= number_with_delimiter(@order.discount_price) %>
+                  <% end %>
+                </td>
               </tr>              
               <tr>
                 <td style="background-color: #f0f0f0;"><strong>ご請求額</strong></td>

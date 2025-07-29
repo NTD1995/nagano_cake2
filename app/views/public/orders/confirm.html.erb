@@ -89,6 +89,7 @@
           <%= form_with url: orders_path, method: :post do %>
             <%= hidden_field_tag 'order[payment_method]', @selected_payment_method %>
             <%= hidden_field_tag 'order[address_type]', @address_type %>
+            <%= hidden_field_tag 'order[coupon_code]', params.dig(:order, :coupon_code) %>
 
             <% if @address_type == "registered_address" %>
               <%= hidden_field_tag 'order[registered_address_id]', params[:order][:registered_address_id] %>

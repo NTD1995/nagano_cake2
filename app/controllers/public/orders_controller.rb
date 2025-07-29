@@ -78,6 +78,7 @@ class Public::OrdersController < ApplicationController
     coupon = Coupon.find_by(code: params[:order][:coupon_code])
 
     if coupon && coupon.available_for?(current_customer, cart_total)
+      @order.discount_price = coupon.discount_price   
       @order.total_price = cart_total - coupon.discount_price
     else
       @order.discount_price = 0
