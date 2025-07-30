@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;">人気商品ランキング（注文数順）</h4>
+      </div>
+    </div>
+  </div>
+
+  <% @ranked_items.each_with_index do |item, index| %>
+    <div class="item-ranking">
+      <h2><%= index + 1 %>位：<%= link_to item.name, item_path(item) %></h2>
+      <p>累計注文数：<%= item.total_orders %>件</p>
+      <p>価格：<%= item.price_excluding_tax %>円（税抜）</p>
+    </div>
+  <% end %>
+</div>

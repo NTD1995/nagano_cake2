@@ -48,7 +48,11 @@ Rails.application.routes.draw do
     # お気に入り
     resource :favorite, only: [:create, :destroy], controller: 'public/favorites', as: :favorite
     # レビュー
-    resources :reviews, only: [:create, :destroy], controller: 'public/reviews'       
+    resources :reviews, only: [:create, :destroy], controller: 'public/reviews' 
+    # ランキング
+    collection do
+      get :ranking
+    end   
   end
   
   # 注文

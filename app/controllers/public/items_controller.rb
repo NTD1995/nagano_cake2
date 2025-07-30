@@ -27,7 +27,14 @@ class Public::ItemsController < ApplicationController
     @recommend_items = recommended_items(@item)         
     end
 
-
+    def ranking
+      @ranked_items = Item
+        .joins(:order_details)
+        .group(:id)
+        .select('items.*, SUM(order_details.quantity) as total_orders')
+        .order('total_orders DESC')
+        .limit(10)
+    end    
     
   private
 
