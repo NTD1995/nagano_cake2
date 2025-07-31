@@ -8,7 +8,7 @@ class Item < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :view_histories, dependent: :destroy
   has_many :viewed_customers, through: :view_histories, source: :customer
-
+  has_many :comparisons, dependent: :destroy
 
   belongs_to :genre
   has_one_attached :image
