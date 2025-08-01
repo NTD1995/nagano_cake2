@@ -80,4 +80,8 @@ Rails.application.routes.draw do
   # 検索一覧
   get "search", to: "public/searches#search", as: "public_search"
     
+  # 商品比較
+  resources :comparisons, controller: 'public/comparisons', only: [:index, :create]
+  delete 'comparisons/:item_id', to: 'public/comparisons#destroy', as: 'remove_comparison'
+
 end

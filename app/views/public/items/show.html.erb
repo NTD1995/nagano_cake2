@@ -29,6 +29,13 @@
         <% end %>
       <% end %>
 
+      <% if current_customer.compared_items.exists?(@item.id) %>
+        <%= button_to '比較リストから削除', remove_comparison_path(item_id: @item.id), method: :delete %>
+      <% else %>
+        <%= button_to '比較リストに追加',comparisons_path(item_id: @item.id), method: :post %>
+      <% end %>
+
+
       <% if @view_history %>
         最終閲覧日時：<%= @view_history.updated_at.strftime("%Y年%m月%d日 %H:%M") %>
       <% end %>
