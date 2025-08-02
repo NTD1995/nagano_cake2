@@ -1,68 +1,81 @@
-<div class='container-fluid  container-sidebar'>
-  <div class='row no-gutters  bg-white' style="margin-bottom: 200px;">
+<div class='container-fluid container-sidebar'>
+  <div class='row no-gutters bg-white' style="margin-bottom: 200px;">
 
-    <div class='col-md-3 mt-4 mb-5'>
-    <%= image_tag @item.get_image(100, 100), class: "card-img-top"%>
-
+    <!-- 商品画像 -->
+    <div class='col-md-4 mt-4 mb-5 text-center'>
+      <%= image_tag @item.get_image(100, 100), class: "img-fluid rounded" %>
     </div>
 
-    <div class='col-md-5 mt-5 mb-5'>
-      <%= form_with url: cart_items_path, method: :post, model: @cart_item do |f| %>
+    <!-- 商品詳細・カート・お気に入り・レビュー -->
+    <div class='col-md-8 mt-4 mb-5'>
+
+      <!-- 商品情報 -->
+      <%= form_with url: cart_items_path, method: :post, model: @cart_item, local: true do |f| %>
         <%= f.hidden_field :item_id, value: @item.id %>
-        <h4><strong><%= @item.name %></strong></h4>
+
+        <h3 class="mb-2"><strong><%= @item.name %></strong></h3>
         <p><%= @item.introduction %></p>
-        <p><b>¥ <%= number_with_delimiter((@item.price_excluding_tax * 1.1).floor) %>（税込）</b></p>
-        <%= f.label :amount, "数量" %>
-          <%= f.select :amount, [['個数選択', '0'], *(1..30).map { |i| [i, i] }] %>
-            &nbsp;&nbsp;&nbsp; <!-- ここに余白を追加 -->        
-          <%= button_to "カートに入れる", cart_items_path, method: :post, class: "btn btn-success" %>
+        <p class="h5 mb-3"><b>¥ <%= number_with_delimiter((@item.price_excluding_tax * 1.1).floor) %>（税込）</b></p>
+
+        <div class="form-group d-flex align-items-center">
+          <%= f.label :amount, "数量", class: "mr-2" %>
+          <%= f.select :amount, [['個数選択', '0'], *(1..30).map { |i| [i, i] }], {}, class: "form-control w-auto" %>
+          <%= f.submit "カートに入れる", class: "btn btn-success ml-3" %>
+        </div>
       <% end %>
+
+      <!-- お気に入りボタン -->
       <% if customer_signed_in? %>
-        <% if current_customer.favorite_items.exists?(@item.id) %>
-          <%= button_to item_favorite_path(@item), method: :delete, class: "favorite-button" do %>
-            <span style="color:red;">♥</span>
+        <div class="my-3">
+          <% if current_customer.favorite_items.exists?(@item.id) %>
+            <%= button_to item_favorite_path(@item), method: :delete, class: "btn btn-outline-danger favorite-button" do %>
+              ♥ お気に入り解除
+            <% end %>
+          <% else %>
+            <%= button_to item_favorite_path(@item), method: :post, class: "btn btn-outline-secondary favorite-button" do %>
+              ♡ お気に入り追加
+            <% end %>
           <% end %>
+        </div>
+      <% end %>
+
+      <!-- 商品比較 -->
+      <div class="my-2">
+        <% if current_customer.compared_items.exists?(@item.id) %>
+          <%= link_to '商品比較リストから削除する', remove_comparison_path(item_id: @item.id), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
         <% else %>
-          <%= button_to item_favorite_path(@item), method: :post, class: "favorite-button" do %>
-            <span style="color:gray;">♡</span>
-          <% end %>
+          <%= link_to '商品比較リストに追加する', comparisons_path(item_id: @item.id), method: :post, class: "btn btn-primary" %>
         <% end %>
-      <% end %>
+      </div>
 
-      <% if current_customer.compared_items.exists?(@item.id) %>
-        <%= button_to '比較リストから削除', remove_comparison_path(item_id: @item.id), method: :delete %>
-      <% else %>
-        <%= button_to '比較リストに追加',comparisons_path(item_id: @item.id), method: :post %>
-      <% end %>
-
-
+      <!-- 閲覧履歴 -->
       <% if @view_history %>
-        最終閲覧日時：<%= @view_history.updated_at.strftime("%Y年%m月%d日 %H:%M") %>
+        <p class="text-muted">最終閲覧日時：<%= @view_history.updated_at.strftime("%Y年%m月%d日 %H:%M") %></p>
       <% end %>
-      
-      <h5>この商品を見た人は<br>こんな商品も見ています</h5>
+
+      <!-- レコメンド -->
+      <h5 class="mt-5">この商品を見た人は<br>こんな商品も見ています</h5>
       <% if @recommend_items.present? %>
         <ul>
           <% @recommend_items.each do |recommend| %>
-            <li>
-              <%= link_to recommend.name, item_path(recommend) %>
-            </li>
+            <li><%= link_to recommend.name, item_path(recommend) %></li>
           <% end %>
         </ul>
       <% else %>
         <p>おすすめの商品はまだありません。</p>
       <% end %>
 
-      <h4><strong>レビュー投稿<strong></h4>
+      <!-- レビュー投稿 -->
+      <h4 class="mt-5"><strong>レビュー投稿</strong></h4>
       <% if customer_signed_in? %>
         <%= form_with model: [@item, Review.new], url: item_reviews_path(@item), local: true do |f| %>
-          <div>
+          <div class="form-group">
             <%= f.label :rating, "評価（1〜5）" %>
-            <%= f.number_field :rating, in: 1..5 %>
+            <%= f.number_field :rating, in: 1..5, class: "form-control w-25" %>
           </div>
-          <div>
-            <%= f.label :comment, "コメント" %><br>
-            <%= f.text_area :comment %>
+          <div class="form-group">
+            <%= f.label :comment, "コメント" %>
+            <%= f.text_area :comment, class: "form-control" %>
           </div>
           <%= f.submit "投稿する", class: "btn btn-success" %>
         <% end %>
@@ -70,21 +83,21 @@
         <p>レビュー投稿にはログインが必要です。</p>
       <% end %>
 
+      <!-- レビュー一覧 -->
       <hr>
-
-      <h4><strong>レビュー一覧</strong></h4>
+      <h4 class="mt-4"><strong>レビュー一覧</strong></h4>
       <% @item.reviews.order(created_at: :desc).each do |review| %>
-        <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+        <div class="border rounded p-3 mb-3">
           <strong><%= "#{review.customer.last_name} #{review.customer.first_name}" %></strong>さんの
-          <span>
-            評価：<%= "★" * review.rating %>（<%= review.rating %>）
-          </span><br>
-          <p class="review" style="word-break: break-word; white-space: pre-wrap;"><%= review.comment %></p>
-          <small>投稿日：<%= review.created_at.strftime('%Y/%m/%d %H:%M') %></small>
+          <span class="ml-2">評価：<%= "★" * review.rating %>（<%= review.rating %>）</span>
+          <p class="review mt-2" style="word-break: break-word; white-space: pre-wrap;"><%= review.comment %></p>
+          <small class="text-muted">投稿日：<%= review.created_at.strftime('%Y/%m/%d %H:%M') %></small>
           <% if customer_signed_in? && review.customer == current_customer %>
-            <%= button_to "レビュー削除", item_review_path(@item, review), method: :delete, data: { confirm: "本当に削除しますか？" } %>
+            <div class="mt-2">
+              <%= button_to "レビュー削除", item_review_path(@item, review), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-outline-danger btn-sm" %>
+            </div>
           <% end %>
-        </div>        
+        </div>
       <% end %>
 
     </div>

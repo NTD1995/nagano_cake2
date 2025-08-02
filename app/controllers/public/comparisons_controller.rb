@@ -8,7 +8,7 @@ class Public::ComparisonsController < ApplicationController
   def create
     item = Item.find(params[:item_id])
     current_customer.comparisons.find_or_create_by(item: item)
-    redirect_to items_path, notice: "比較リストに追加しました"
+    redirect_to comparisons_path, notice: "比較リストに追加しました"
   end
 
   def destroy
