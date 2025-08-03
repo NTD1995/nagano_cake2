@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_31_105134) do
+ActiveRecord::Schema.define(version: 2025_08_03_104230) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -151,6 +151,17 @@ ActiveRecord::Schema.define(version: 2025_07_31_105134) do
     t.index ["genre_id"], name: "index_items_on_genre_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "item_id", null: false
+    t.string "message"
+    t.boolean "read", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_notifications_on_customer_id"
+    t.index ["item_id"], name: "index_notifications_on_item_id"
+  end
+
   create_table "order_details", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "item_id", null: false
@@ -175,6 +186,16 @@ ActiveRecord::Schema.define(version: 2025_07_31_105134) do
     t.integer "discount_price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "restock_requests", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id", "item_id"], name: "index_restock_requests_on_customer_id_and_item_id", unique: true
+    t.index ["customer_id"], name: "index_restock_requests_on_customer_id"
+    t.index ["item_id"], name: "index_restock_requests_on_item_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -209,6 +230,10 @@ ActiveRecord::Schema.define(version: 2025_07_31_105134) do
   add_foreign_key "favorites", "customers"
   add_foreign_key "favorites", "items"
   add_foreign_key "items", "genres"
+  add_foreign_key "notifications", "customers"
+  add_foreign_key "notifications", "items"
+  add_foreign_key "restock_requests", "customers"
+  add_foreign_key "restock_requests", "items"
   add_foreign_key "reviews", "customers"
   add_foreign_key "reviews", "items"
   add_foreign_key "view_histories", "customers"

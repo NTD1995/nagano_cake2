@@ -15,7 +15,9 @@ class Customer < ApplicationRecord
   has_many :coupon_usages, dependent: :destroy
   has_many :coupons, through: :coupon_usages
   has_many :comparisons, dependent: :destroy
-  has_many :compared_items, through: :comparisons, source: :item  
+  has_many :compared_items, through: :comparisons, source: :item
+  has_many :notifications, dependent: :destroy
+  has_many :restock_requests, dependent: :destroy  
   
   validates :last_name, presence: true
   validates :first_name, presence: true
