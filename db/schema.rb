@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(version: 2025_08_03_104230) do
     t.text "introduction", null: false
     t.integer "price_excluding_tax", null: false
     t.boolean "is_sale", default: true, null: false
+    t.integer "stock", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["genre_id"], name: "index_items_on_genre_id"

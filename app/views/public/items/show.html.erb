@@ -24,6 +24,16 @@
         </div>
       <% end %>
 
+      <!-- 再入荷通知希望ボタン -->
+      <% if @item.stock == 0 %>
+        <% if current_customer.restock_requests.exists?(item_id: @item.id) %>
+          <%= button_to '通知を解除', restock_request_path(@item), method: :delete %>
+        <% else %>
+          <%= button_to '再入荷通知を希望', restock_requests_path(item_id: @item.id), method: :post %>
+        <% end %>
+      <% end %>
+
+
       <!-- お気に入りボタン -->
       <% if customer_signed_in? %>
         <div class="my-3">

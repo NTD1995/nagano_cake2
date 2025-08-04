@@ -52,7 +52,9 @@ Rails.application.routes.draw do
     # ランキング
     collection do
       get :ranking
-    end   
+    end
+    # 再入荷通知希望
+    resource :restock_requests, only: [:create, :destroy], controller: 'public/restock_requests'   
   end
   
   # 注文
@@ -83,5 +85,9 @@ Rails.application.routes.draw do
   # 商品比較
   resources :comparisons, controller: 'public/comparisons', only: [:index, :create]
   delete 'comparisons/:item_id', to: 'public/comparisons#destroy', as: 'remove_comparison'
+
+  # 通知
+  resources :notifications, only: [:index, :update], controller: 'public/notifications'
+
 
 end

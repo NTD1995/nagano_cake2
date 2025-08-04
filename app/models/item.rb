@@ -49,4 +49,20 @@ class Item < ApplicationRecord
     end
   end
 
+  after_update :notify_restock, if: :saved_change_to_stock?
+
+  def notify_restock
+    return unless stock_previously_was == 0 && stock > 0
+
+    restock_requests.each do |request|
+      Notification.create!(
+        customer: request.customer,
+        item: self,
+        message: "#{name}が再入荷されました！"
+      )
+    end
+
+    restock_requests.destroy_all
+  end
+
 end
