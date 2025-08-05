@@ -54,7 +54,7 @@ Rails.application.routes.draw do
       get :ranking
     end
     # 再入荷通知希望
-    resource :restock_requests, only: [:create, :destroy], controller: 'public/restock_requests'   
+    resource :restock_requests, only: [:create, :destroy], controller: 'public/restock_requests', as: 'restock_request'   
   end
   
   # 注文
