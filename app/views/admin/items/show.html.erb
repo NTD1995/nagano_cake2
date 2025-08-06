@@ -42,6 +42,18 @@
                   </td>
                 </tr>
                 <tr>
+                  <th> 在庫数: <%= @item.stock %></th>               
+                    <%= form_with model: @item, url: admin_item_path(@item), method: :patch, local: true do |f| %>
+                      <td>
+                        <%= f.label :stock, "在庫を更新する" %>
+                        <%= f.number_field :stock, min: 0 %>
+                      </td>
+                      <td>
+                        <%= f.submit "在庫を更新" %>
+                      </td>
+                    <% end %>
+                </tr>
+                <tr>
                   <th>販売ステータス</th>
                   <td>
                     <% if @item.is_sale? %>
