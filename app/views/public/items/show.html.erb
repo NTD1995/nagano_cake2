@@ -25,11 +25,11 @@
       <% end %>
 
       <!-- 再入荷通知希望ボタン -->
-      <% if @item.stock == 0 %>
+      <% if customer_signed_in? && @item.stock == 0 %>
         <% if current_customer.restock_requests.exists?(item_id: @item.id) %>
           <%= button_to '通知を解除する', item_restock_request_path(@item), method: :delete, class: "btn btn-primary" %>
         <% else %>
-          <%= button_to '再入荷通知を希望する', item_restock_request_path(item_id: @item.id), method: :post, class: "btn btn-primary" %>
+          <%= button_to '再入荷通知を希望する', item_restock_request_path(@item), method: :post, class: "btn btn-primary" %>
         <% end %>
       <% end %>
 
@@ -50,7 +50,7 @@
 
       <!-- 商品比較 -->
       <div class="my-2">
-        <% if current_customer.compared_items.exists?(@item.id) %>
+        <% if customer_signed_in? && current_customer.compared_items.exists?(@item.id) %>
           <%= link_to '商品比較リストから削除する', remove_comparison_path(item_id: @item.id), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
         <% else %>
           <%= link_to '商品比較リストに追加する', comparisons_path(item_id: @item.id), method: :post, class: "btn btn-primary" %>

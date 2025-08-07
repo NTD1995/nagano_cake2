@@ -26,7 +26,9 @@ Rails.application.routes.draw do
     # 検索一覧 
     get "search", to: "searches#search", as: "search"   
     # クーポン
-    resources :coupons     
+    resources :coupons  
+    # 再通知一覧
+    resources :notifications, only: [:index, :update]   
   end
 
   # 会員のログイン、新規登録

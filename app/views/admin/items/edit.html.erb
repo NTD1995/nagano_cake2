@@ -83,6 +83,19 @@
           <div class="col-sm-10">
             <div class="row">
               <div class="col-sm-2 col-form-label">
+                <%= f.label :stock, "在庫数", class: "col-form-label" %>
+              </div>
+              <div class="col-sm-10">
+                <%= f.number_field :stock, class: "form-control", min: 0 %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-sm-2 col-form-label">
                 <%= f.label :is_sale, "販売ステータス", class: "col-form-label" %>
               </div>
               <div class="col-sm-10 d-flex">
