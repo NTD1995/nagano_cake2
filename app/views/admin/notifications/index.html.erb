@@ -1,0 +1,17 @@
+<h2>再入荷通知一覧</h2>
+
+<% @notifications.each do |notification| %>
+  <div class="<%= 'unread' unless notification.read %>">
+    <p><%= notification.message %></p>
+
+    <% if notification.item.present? %>
+      <%= link_to '商品ページへ', admin_item_path(notification.item) %>
+    <% else %>
+      <p>商品情報が存在しません</p>
+    <% end %>
+
+    <% unless notification.read %>
+      <%= button_to '既読にする', notification_path(notification), method: :patch %>
+    <% end %>
+  </div>
+<% end %>
