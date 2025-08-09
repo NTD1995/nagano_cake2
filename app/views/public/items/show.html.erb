@@ -24,6 +24,8 @@
         </div>
       <% end %>
 
+      <p class="text-muted">在庫数：<%= @item.stock %> 個</p>   
+
       <!-- 再入荷通知希望ボタン -->
       <% if customer_signed_in? && @item.stock == 0 %>
         <% if current_customer.restock_requests.exists?(item_id: @item.id) %>

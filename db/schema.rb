@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 2025_08_03_104230) do
   create_table "restock_requests", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.integer "item_id", null: false
+    t.boolean "notified", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["customer_id", "item_id"], name: "index_restock_requests_on_customer_id_and_item_id", unique: true
