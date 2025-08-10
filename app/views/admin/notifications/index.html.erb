@@ -1,17 +1,24 @@
-<h2>再入荷通知一覧</h2>
-
-<% @notifications.each do |notification| %>
-  <div class="<%= 'unread' unless notification.read %>">
-    <p><%= notification.message %></p>
-
-    <% if notification.item.present? %>
-      <%= link_to '商品ページへ', admin_item_path(notification.item) %>
-    <% else %>
-      <p>商品情報が存在しません</p>
-    <% end %>
-
-    <% unless notification.read %>
-      <%= button_to '既読にする', notification_path(notification), method: :patch %>
-    <% end %>
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block;">
+        <h4 style="margin: 0;">再入荷通知一覧</h4>
+      </div>
+    </div>
   </div>
-<% end %>
+
+  <% @notifications.each do |notification| %>
+    <div class="<%= 'unread' unless notification.read %>">
+      <p><%= notification.customer.name %> さんへの通知: <%= notification.message %></p>
+
+      <% if notification.item.present? %>
+        <%= link_to '商品ページへ', admin_item_path(notification.item) %>
+      <% else %>
+        <p>商品情報が存在しません</p>
+      <% end %>
+
+      <% unless notification.read %>
+        <%= button_to '既読にする', notification_path(notification), method: :patch %>
+      <% end %>
+    </div>
+  <% end %>

@@ -2,7 +2,8 @@ class Admin::NotificationsController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @notifications = RestockRequest.includes(:item, :customer).where(notified: true).order(updated_at: :desc)
+    @notifications = Notification.includes(:item, :customer)
+                                  .order(created_at: :desc)
   end
 
   def update

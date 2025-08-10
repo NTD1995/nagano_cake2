@@ -49,20 +49,26 @@ class Item < ApplicationRecord
     end
   end
 
-  after_update :notify_restock, if: :saved_change_to_stock?
+  after_update :create_restock_notifications, if: :restocked?
 
-  def notify_restock
-    return unless stock_previously_was == 0 && stock > 0
+  private
 
-    restock_requests.each do |request|
-      Notification.create!(
-        customer: request.customer,
-        item: self,
-        message: "#{name}が再入荷されました！"
-      )
-    end
-
-    restock_requests.destroy_all
+  # 在庫が0から1以上になったか判定
+  def restocked?
+    saved_change_to_stock? && stock > 0 && stock_before_last_save == 0
   end
+
+  # 再入荷通知を作成
+  def create_restock_notifications
+    restock_requests.where(notified: false).find_each do |request|
+      Notification.create!(
+        customer_id: request.customer_id,
+        item_id: id,
+        message: "#{name}が再入荷しました！",
+        read: false
+      )
+      request.update!(notified: true) # 二重通知防止
+    end
+  end  
 
 end
