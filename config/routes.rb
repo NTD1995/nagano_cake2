@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  namespace :public do
+    get 'subscriptions/index'
+    get 'subscriptions/new'
+    get 'subscriptions/create'
+    get 'subscriptions/edit'
+    get 'subscriptions/update'
+    get 'subscriptions/cancel'
+  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
@@ -90,6 +98,13 @@ Rails.application.routes.draw do
 
   # 通知
   resources :notifications, only: [:index, :update], controller: 'public/notifications'
+
+  # 定期購入
+  resources :subscriptions, controller: 'public/subscriptions', except: [:show, :destroy] do
+    member do
+      patch :cancel
+    end
+  end
 
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_08_03_104230) do
+ActiveRecord::Schema.define(version: 2025_08_11_132837) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -211,6 +211,19 @@ ActiveRecord::Schema.define(version: 2025_08_03_104230) do
     t.index ["item_id"], name: "index_reviews_on_item_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "item_id", null: false
+    t.integer "quantity", default: 1
+    t.integer "interval_days", default: 30
+    t.date "next_delivery_date"
+    t.string "status", default: "active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
+    t.index ["item_id"], name: "index_subscriptions_on_item_id"
+  end
+
   create_table "view_histories", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.integer "item_id", null: false
@@ -238,6 +251,8 @@ ActiveRecord::Schema.define(version: 2025_08_03_104230) do
   add_foreign_key "restock_requests", "items"
   add_foreign_key "reviews", "customers"
   add_foreign_key "reviews", "items"
+  add_foreign_key "subscriptions", "customers"
+  add_foreign_key "subscriptions", "items"
   add_foreign_key "view_histories", "customers"
   add_foreign_key "view_histories", "items"
 end

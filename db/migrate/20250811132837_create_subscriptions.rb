@@ -6,7 +6,7 @@ class CreateSubscriptions < ActiveRecord::Migration[6.1]
       t.integer :quantity, default: 1
       t.integer :interval_days, default: 30
       t.date :next_delivery_date
-      t.strong :status, default: "active"
+      t.string :status, default: "active"
 
       t.timestamps
     end

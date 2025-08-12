@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row" style="margin: 20px;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;"><%= @item.name %> の定期購入設定</h4>
+      </div>
+    </div>
+  </div>
+
+  <%= form_with model: @subscription, url: subscriptions_path do |f| %>
+    <%= f.hidden_field :item_id, value: @item.id %>
+
+    <div>
+      <%= f.label :quantity, "数量" %>
+      <%= f.number_field :quantity, min: 1 %>
+    </div>
+
+    <div>
+      <%= f.label :interval_days, "配送間隔（日）" %>
+      <%= f.number_field :interval_days, min: 1 %>
+    </div>
+
+    <%= f.submit "定期購入を開始する", class: "btn btn-success" %>
+  <% end %>
+</div>

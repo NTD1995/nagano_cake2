@@ -12,13 +12,13 @@
       <p><%= notification.message %></p>
 
       <% if notification.item.present? %>
-        <%= link_to '商品ページへ', item_path(notification.item) %>
+        <%= link_to '商品ページへ', item_path(notification.item), class: "btn btn-success" %>
       <% else %>
         <p>商品情報が存在しません</p>
       <% end %>
 
       <% unless notification.read %>
-        <%= button_to '既読にする', notification_path(notification), method: :patch %>
+        <%= button_to '既読にする', notification_path(notification), method: :patch, class: "btn btn-primary" %>
       <% end %>
     </div>
   <% end %>

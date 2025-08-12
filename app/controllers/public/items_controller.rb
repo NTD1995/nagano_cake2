@@ -15,7 +15,8 @@ class Public::ItemsController < ApplicationController
     @item = Item.find(params[:id])
     @cart_item = CartItem.new
     @review = Review.new
-    @reviews = @item.reviews.order(created_at: :desc)   
+    @reviews = @item.reviews.order(created_at: :desc)  
+    @subscription = current_customer.subscriptions.new(item: @item) 
     if customer_signed_in?
       @view_history = ViewHistory.find_or_initialize_by(customer_id: current_customer.id, item_id: @item.id)
       if @view_history.new_record?
