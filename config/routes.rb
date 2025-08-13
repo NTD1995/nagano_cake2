@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'subscriptions/index'
+    get 'subscriptions/show'
+    get 'subscriptions/update'
+    get 'subscriptions/destroy'
+  end
   namespace :public do
     get 'subscriptions/index'
     get 'subscriptions/new'
@@ -36,7 +42,9 @@ Rails.application.routes.draw do
     # クーポン
     resources :coupons  
     # 再通知一覧
-    resources :notifications, only: [:index, :update]   
+    resources :notifications, only: [:index, :update]  
+    # 定期購入
+    resources :subscriptions, only: [:index, :show, :update, :destroy] 
   end
 
   # 会員のログイン、新規登録

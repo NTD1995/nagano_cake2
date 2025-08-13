@@ -9,7 +9,7 @@
 
   <% @notifications.each do |notification| %>
     <div class="<%= 'unread' unless notification.read %>">
-      <p><%= notification.customer.name %> さんへの通知: <%= notification.message %></p>
+      <p><%= notification.customer.last_name %><%= notification.customer.first_name %> さんへの通知: <%= notification.message %></p>
 
       <% if notification.item.present? %>
         <%= link_to '商品ページへ', admin_item_path(notification.item) %>
@@ -22,3 +22,4 @@
       <% end %>
     </div>
   <% end %>
+</div>  
