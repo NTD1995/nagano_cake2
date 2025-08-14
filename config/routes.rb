@@ -1,18 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    get 'subscriptions/index'
-    get 'subscriptions/show'
-    get 'subscriptions/update'
-    get 'subscriptions/destroy'
-  end
-  namespace :public do
-    get 'subscriptions/index'
-    get 'subscriptions/new'
-    get 'subscriptions/create'
-    get 'subscriptions/edit'
-    get 'subscriptions/update'
-    get 'subscriptions/cancel'
-  end
   # トップページ
   root to: "public/homes#top"
   # アバウトページ
