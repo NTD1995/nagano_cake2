@@ -59,6 +59,13 @@ Rails.application.routes.draw do
     end
     # 再入荷通知希望
     resource :restock_requests, only: [:create, :destroy], controller: 'public/restock_requests', as: 'restock_request'   
+    # 定期購入
+    resources :subscriptions, controller: 'public/subscriptions', except: [:show, :destroy] do
+      member do
+        patch :cancel
+      end
+    end
+
   end
   
   # 注文

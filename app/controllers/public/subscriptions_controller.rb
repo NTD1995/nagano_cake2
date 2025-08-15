@@ -11,11 +11,14 @@ class Public::SubscriptionsController < ApplicationController
   end
 
   def create
+    @item = Item.find(params[:item_id])
     @subscription = current_customer.subscriptions.new(subscription_params)
+    @subscription.item = @item
+    @subscription.interval_days = @subscription.interval_days.to_i
     @subscription.next_delivery_date = Date.today + @subscription.interval_days.days
 
     if @subscription.save
-      redirect_to subscriptions_path, notice: "定期購入を開始しました"
+      redirect_to item_subscriptions_path(@item), notice: "定期購入を開始しました"
     else
       render :new
     end

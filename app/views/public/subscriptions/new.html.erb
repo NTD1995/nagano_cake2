@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <%= form_with model: @subscription, url: subscriptions_path do |f| %>
+  <%= form_with model: @subscription, url: item_subscriptions_path(@item) do |f| %>
     <%= f.hidden_field :item_id, value: @item.id %>
 
     <div>
