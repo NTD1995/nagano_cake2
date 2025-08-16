@@ -22,7 +22,8 @@
           <%= f.select :amount, [['個数選択', '0'], *(1..30).map { |i| [i, i] }], {}, class: "form-control w-auto" %>
           <% if @item.stock > 0 %>
             <%= f.submit "カートに入れる", class: "btn btn-success ml-3 mr-3" %>
-            <%= link_to "定期購入する", new_subscription_path(item_id: @item.id), class: "btn btn-success" %>
+            <%= link_to "定期購入する", new_item_subscription_path(@item), class: "btn btn-success" %>
+            <%= link_to "定期購入一覧を見る", item_subscriptions_path(@item), class: "btn btn-secondary" %>
           <% else %>
             <p class="text-danger">売り切れ中</p>
           <% end %>

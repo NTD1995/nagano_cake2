@@ -7,9 +7,7 @@
     </div>
   </div>
 
-  <%= form_with model: @subscription, url: item_subscriptions_path(@item) do |f| %>
-    <%= f.hidden_field :item_id, value: @item.id %>
-
+  <%= form_with model: [@item, @subscription], local: true do |f| %>
     <div>
       <%= f.label :quantity, "数量" %>
       <%= f.number_field :quantity, min: 1 %>
@@ -22,4 +20,5 @@
 
     <%= f.submit "定期購入を開始する", class: "btn btn-success" %>
   <% end %>
+
 </div>

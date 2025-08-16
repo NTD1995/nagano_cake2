@@ -68,6 +68,9 @@ Rails.application.routes.draw do
 
   end
   
+  # 顧客全体の定期購入一覧
+  resources :subscriptions, controller: 'public/subscriptions', only: [:index]
+
   # 注文
   resources :orders, controller: 'public/orders', only:[:new, :create, :index, :show] do
     collection do
@@ -100,12 +103,7 @@ Rails.application.routes.draw do
   # 通知
   resources :notifications, only: [:index, :update], controller: 'public/notifications'
 
-  # 定期購入
-  resources :subscriptions, controller: 'public/subscriptions', except: [:show, :destroy] do
-    member do
-      patch :cancel
-    end
-  end
+
 
 
 end
