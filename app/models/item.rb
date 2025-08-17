@@ -11,6 +11,7 @@ class Item < ApplicationRecord
   has_many :comparisons, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :restock_requests, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   belongs_to :genre
   has_one_attached :image
