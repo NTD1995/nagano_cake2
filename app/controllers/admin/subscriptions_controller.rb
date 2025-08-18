@@ -9,6 +9,10 @@ class Admin::SubscriptionsController < ApplicationController
     @subscription = Subscription.find(params[:id])
   end
 
+  def edit
+    @subscription = Subscription.find(params[:id])
+  end
+
   def update
     @subscription = Subscription.find(params[:id])
     if @subscription.update(subscription_params)
@@ -27,6 +31,6 @@ class Admin::SubscriptionsController < ApplicationController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:interval, :status, :next_delivery_date)
+    params.require(:subscription).permit(:quantity, :interval_days, :status, :next_delivery_date)
   end
 end

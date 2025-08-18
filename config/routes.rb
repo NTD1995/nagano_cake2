@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     # 再通知一覧
     resources :notifications, only: [:index, :update]  
     # 定期購入
-    resources :subscriptions, only: [:index, :show, :update, :destroy] 
+    resources :subscriptions, only: [:index, :show, :edit, :update, :destroy] 
   end
 
   # 会員のログイン、新規登録

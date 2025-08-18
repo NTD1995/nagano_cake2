@@ -12,6 +12,7 @@
               <tr>
                 <th>会員名</th>
                 <th>商品名</th>
+                <th>数量</th>                
                 <th>次回配送日</th>
                 <th>状態</th>
                 <th></th>
@@ -22,6 +23,7 @@
                 <tr>
                   <td><%= subscription.customer.last_name %><%= subscription.customer.first_name %></td>
                   <td><%= subscription.item.name %></td>
+                  <td><%= subscription.quantity %></td>                  
                   <td><%= subscription.next_delivery_date %></td>
                   <td><%= subscription.status %></td>
                   <td><%= link_to "詳細", admin_subscription_path(subscription) %></td>

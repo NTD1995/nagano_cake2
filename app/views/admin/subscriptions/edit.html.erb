@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block; margin-bottom: 20px;"
+        <h4 style="margin: 0;">定期購入編集</h4>
+      </div>
+
+      <%= form_with model: [:admin, @subscription], local: true do |f| %>
+        <table class="table">
+          <tr>
+            <th>会員名</th>
+            <td><%= @subscription.customer.last_name %><%= @subscription.customer.first_name %></td>
+          </tr>
+          <tr>
+            <th>商品名</th>
+            <td><%= @subscription.item.name %></td>
+          </tr>
+          <tr>
+            <th>数量</th>
+            <td><%= f.number_field :quantity, min: 1, class: "form-control" %></td>
+          </tr>
+          <tr>
+            <th>お届け間隔（日数）</th>
+            <td><%= f.number_field :interval_days, min: 1, class: "form-control" %></td>
+          </tr>
+          <tr>
+            <th>次回配送日</th>
+            <td><%= f.date_field :next_delivery_date, class: "form-control" %></td>
+          </tr>
+          <tr>
+            <th>ステータス</th>
+            <td>
+              <%= f.select :status, [["active"], ["canceled"]], {}, class: "form-control" %>
+            </td>
+          </tr>
+        </table>
+
+        <div class="mt-3">
+          <%= f.submit "更新する", class: "btn btn-primary" %>
+          <%= link_to "戻る", admin_subscription_path(@subscription), class: "btn btn-secondary ml-2" %>
+        </div>
+      <% end %>
+</div>
