@@ -4,7 +4,8 @@ class Subscription < ApplicationRecord
 
   validates :quantity, numericality: { greater_than: 0 }
   validates :interval_days, numericality: { greater_than: 0 }
-  validates :status, inclusion: { in: %w(active paused canceled) }
+
+  enum status: { active: 0, canceled: 1 }
 
   def process_order!
     # 注文を作成

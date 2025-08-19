@@ -1,5 +1,9 @@
 ja:
   enums:
+    subscription:
+      status:
+        active: "有効"
+        canceled: "解約済み"
     order:
       payment_method:
         credit_card: "クレジットカード"
