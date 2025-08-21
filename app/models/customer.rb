@@ -48,5 +48,28 @@ class Customer < ApplicationRecord
     else
       none
     end
+  end
+  
+  # ゲストユーザーの登録
+  GUEST_USER_EMAIL = "guest@guest"
+
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL) do |customer|
+      customer.password = SecureRandom.urlsafe_base64
+      customer.last_name = "ゲスト"
+      customer.first_name = "ユーザー"
+      customer.last_name_kana = "ゲスト"
+      customer.first_name_kana = "ユーザー"
+      customer.post_code = "0000000"
+      customer.address = "ゲスト住所"
+      customer.phone_number = "0000000000"
+      customer.is_active = true
+    end
+  end
+
+
+  def guest_user?
+    email == GUEST_USER_EMAIL
   end  
+
 end

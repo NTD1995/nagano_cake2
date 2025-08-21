@@ -7,64 +7,72 @@
     </div>
   </div>
 
-       <div class="row mb-3 ">
-        <div class="col-sm-10 ">
-          <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block;">
-            <h4 style="margin: 0;">会員の方はこちらからログイン</h4>
-          </div>
-        </div>
-      </div>
-
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-
-        <div class="row mb-3 justify-content-center">
-          <div class="col-sm-10">
-            <div class="row">
-              <div class="col-sm-4 col-form-label">
-                <%= f.label :email, "メールアドレス", class: "col-form-label" %>
-              </div>
-              <div class="col-sm-8">
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mb-3 justify-content-center">
-          <div class="col-sm-10">
-            <div class="row">
-              <div class="col-sm-4 col-form-label">
-                <%= f.label :password, "パスワード", class: "col-form-label" %>
-              </div>
-              <div class="col-sm-8">
-                <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mb-3 justify-content-center">
-          <div class="col-12 d-flex justify-content-center">
-            <%= f.submit "ログイン", class: "btn btn-primary", style: "padding: 10px 30px;" %>
-          </div>
-        </div>
-
+  <div class="row mb-3 ">
+    <div class="col-sm-10 ">
+      <%= link_to customers_guest_sign_in_path, class: "btn btn-secondary w-100", method: :post , style: "padding: 10px 20px;" do %>
+        <i class="fa-solid fa-user-tie"></i> ゲストログイン（閲覧用）
       <% end %>
+    </div>
+  </div> 
 
- 
-      <div class="row mt-3 >
-        <div class="col-sm-10 ">
-          <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block;">
-            <h4 style="margin: 0;">会員登録がお済みでない方</h4>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mt-3 justify-content-center" style="margin-bottom: 200px;">
-        <div class="col-sm-10 text-center">      
-      <%= link_to "こちら", new_customer_registration_path, style: "text-decoration: underline;" %>から新規登録を行ってください。
-        </div>
+  <div class="row mb-3 ">
+    <div class="col-sm-10 ">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block;">
+        <h4 style="margin: 0;">会員の方はこちらからログイン</h4>
       </div>
     </div>
   </div>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-sm-4 col-form-label">
+            <%= f.label :email, "メールアドレス", class: "col-form-label" %>
+          </div>
+          <div class="col-sm-8">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-sm-4 col-form-label">
+            <%= f.label :password, "パスワード", class: "col-form-label" %>
+          </div>
+          <div class="col-sm-8">
+            <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-12 d-flex justify-content-center">
+        <%= f.submit "ログイン", class: "btn btn-primary", style: "padding: 10px 30px;" %>
+      </div>
+    </div>
+
+  <% end %>
+
+
+  <div class="row mt-3 >
+    <div class="col-sm-10 ">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px; display: inline-block;">
+        <h4 style="margin: 0;">会員登録がお済みでない方</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 justify-content-center" style="margin-bottom: 200px;">
+    <div class="col-sm-10 text-center">      
+      <%= link_to "こちら", new_customer_registration_path, style: "text-decoration: underline;" %>から新規登録を行ってください。
+    </div>
+  </div>
+ </div>
+</div>
 </div>

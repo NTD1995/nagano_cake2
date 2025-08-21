@@ -103,7 +103,9 @@ Rails.application.routes.draw do
   # 通知
   resources :notifications, only: [:index, :update], controller: 'public/notifications'
 
-
-
+  # ゲストユーザー
+  devise_scope :customer do
+    post "customers/guest_sign_in", to: "customers/sessions#guest_sign_in"
+  end
 
 end
