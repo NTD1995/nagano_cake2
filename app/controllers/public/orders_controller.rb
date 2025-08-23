@@ -126,10 +126,10 @@ class Public::OrdersController < ApplicationController
       # クーポン使用履歴保存
       if coupon
           CouponUsage.create!(customer: current_customer, coupon: coupon, used_at: Time.current)
+      end    
         redirect_to thanks_orders_path
-      else
+    else
         render :new
-      end
     end
   end
 

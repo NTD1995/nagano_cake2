@@ -45,7 +45,7 @@ class Public::CustomersController < ApplicationController
   # ゲストユーザーがプロフィールを編集できないようにする  
   def ensure_guest_user
     if current_customer.email == "guest@guest"
-      redirect_to customers_mypage_path, alert: "ゲストユーザーはプロフィール編集画面へ遷移できません。"
+      redirect_to customers_my_page_path, alert: "ゲストユーザーはプロフィール編集画面へ遷移できません。"
     end
   end
 
