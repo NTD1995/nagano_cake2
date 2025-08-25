@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;">よくある質問</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-list">
+    <% @faqs.each do |faq| %>
+      <div class="faq-item">
+        <p><strong>Q. <%= faq.question %></strong></p>
+        <p>A. <%= faq.answer %></p>
+      </div>
+    <% end %>
+  </div>
+
+</div>

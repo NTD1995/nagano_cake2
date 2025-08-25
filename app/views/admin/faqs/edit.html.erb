@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;">FAQ編集</h4>
+      </div>
+    </div>
+  </div>
+
+  <%= form_with model: @faq, url: admin_faq_path(@faq), local: true, method: :patch do |f| %>
+    <% if @faq.errors.any? %>
+      <div class="alert alert-danger">
+        <h4>エラーが発生しました</h4>
+        <ul>
+          <% @faq.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= f.label :question, "質問内容", class: "form-label" %>
+      <%= f.text_field :question, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :answer, "回答内容", class: "form-label" %>
+      <%= f.text_area :answer, class: "form-control", rows: 5 %>
+    </div>
+
+    <%= f.submit "更新する", class: "btn btn-success" %>
+    <%= link_to "戻る", admin_faqs_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

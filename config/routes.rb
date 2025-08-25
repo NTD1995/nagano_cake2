@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     resources :notifications, only: [:index, :update]  
     # 定期購入
     resources :subscriptions, only: [:index, :show, :edit, :update, :destroy] 
+    # FAQ
+    resources :faqs
   end
 
   # 会員のログイン、新規登録
@@ -107,5 +109,8 @@ Rails.application.routes.draw do
   devise_scope :customer do
     post "customers/guest_sign_in", to: "customers/sessions#guest_sign_in"
   end
+
+  # FAQ
+  resources :faqs, only: [:index], controller: "public/faqs"
 
 end

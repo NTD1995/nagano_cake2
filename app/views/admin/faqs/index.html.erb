@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-between">
+      <div class="title-background" style="background-color: #f0f0f0; padding: 0px 20px; border-radius: 4px;">
+        <h4 style="margin: 0;">FAQ一覧</h4>
+      </div>
+    </div>
+  </div>
+
+  <%= link_to "新規作成", new_admin_faq_path, class: "btn btn-primary" %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>質問</th>
+        <th>回答</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @faqs.each do |faq| %>
+        <tr>
+          <td><%= faq.question %></td>
+          <td><%= truncate(faq.answer, length: 50) %></td>
+          <td>
+            <%= link_to "編集する", edit_admin_faq_path(faq), class: "btn btn-success" %>
+            <%= link_to "削除する", admin_faq_path(faq), method: :delete, data: { confirm: "削除してよろしいですか？" }, class: "btn btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

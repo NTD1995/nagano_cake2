@@ -46,6 +46,10 @@
             </li>
 
             <li class="nav-item">
+              <%= link_to 'FAQ', faqs_path, class: "nav_button" %>
+            </li>
+
+            <li class="nav-item">
               <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "nav_button" %>
             </li>
 
@@ -86,6 +90,10 @@
     
             <li class="nav-item">
               <%= link_to '定期購入', admin_subscriptions_path, class: "nav_button" %>
+            </li>
+
+            <li class="nav-item">
+              <%= link_to 'FAQ', admin_faqs_path, class: "nav_button" %>
             </li>
 
             <li class="nav-item">
