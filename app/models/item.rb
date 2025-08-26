@@ -15,6 +15,7 @@ class Item < ApplicationRecord
 
   belongs_to :genre
   has_one_attached :image
+  belongs_to :category, optional: true
   
   validates :name, presence: true
   validates :introduction, presence: true
@@ -72,4 +73,35 @@ class Item < ApplicationRecord
     end
   end  
 
+  
+  scope :by_category, ->(category_id) {
+    where(category_id: category_id) if category_id.present?
+  }
+
+  scope :by_price_range, ->(min, max) {
+    if min.present? && max.present?
+      where(price: min..max)
+    elsif min.present?
+      where("price >= ?", min)
+    elsif max.present?
+      where("price <= ?", max)
+    end
+  }
+
+  scope :in_stock, -> {
+    where("stock > 0")
+  }
+
+  scope :sorted, ->(sort_param) {
+    case sort_param
+    when "newest"
+      order(created_at: :desc)
+    when "price_asc"
+      order(price: :asc)
+    when "price_desc"
+      order(price: :desc)
+    else
+      order(created_at: :desc)
+    end
+  }
 end
