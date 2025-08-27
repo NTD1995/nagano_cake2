@@ -15,7 +15,6 @@ class Item < ApplicationRecord
 
   belongs_to :genre
   has_one_attached :image
-  belongs_to :category, optional: true
   
   validates :name, presence: true
   validates :introduction, presence: true
@@ -53,6 +52,47 @@ class Item < ApplicationRecord
 
   after_update :create_restock_notifications, if: :restocked?
 
+   # 🔍 キーワード検索
+  scope :by_keyword, ->(keyword) {
+    where("name LIKE :kw OR introduction LIKE :kw", kw: "%#{keyword}%") if keyword.present?
+  }
+
+  # 🎯 ジャンルで絞り込み
+  scope :by_genre, ->(genre_id) {
+    where(genre_id: genre_id) if genre_id.present?
+  }
+
+  # 💰 価格帯
+  scope :by_price_range, ->(min, max) {
+    if min.present? && max.present?
+      where(price_excluding_tax: min..max)
+    elsif min.present?
+      where("price_excluding_tax >= ?", min)
+    elsif max.present?
+      where("price_excluding_tax <= ?", max)
+    end
+  }
+
+  # 📦 在庫あり
+  scope :in_stock, -> {
+    where("stock > 0")
+  }
+
+  # ↕ 並び替え
+  scope :sorted, ->(sort_param) {
+    case sort_param
+    when "newest"
+      order(created_at: :desc)
+    when "price_asc"
+      order(price_excluding_tax: :asc)
+    when "price_desc"
+      order(price_excluding_tax: :desc)
+    else
+      order(created_at: :desc)
+    end
+  }
+
+
   private
 
   # 在庫が0から1以上になったか判定
@@ -74,34 +114,4 @@ class Item < ApplicationRecord
   end  
 
   
-  scope :by_category, ->(category_id) {
-    where(category_id: category_id) if category_id.present?
-  }
-
-  scope :by_price_range, ->(min, max) {
-    if min.present? && max.present?
-      where(price: min..max)
-    elsif min.present?
-      where("price >= ?", min)
-    elsif max.present?
-      where("price <= ?", max)
-    end
-  }
-
-  scope :in_stock, -> {
-    where("stock > 0")
-  }
-
-  scope :sorted, ->(sort_param) {
-    case sort_param
-    when "newest"
-      order(created_at: :desc)
-    when "price_asc"
-      order(price: :asc)
-    when "price_desc"
-      order(price: :desc)
-    else
-      order(created_at: :desc)
-    end
-  }
 end

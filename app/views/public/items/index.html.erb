@@ -35,6 +35,56 @@
       </div>
     </div>
 
+    <h2>商品検索</h2>
+
+<%= form_with url: items_path, method: :get, local: true do |f| %>
+  <div>
+    <%= f.label :keyword, "キーワード検索" %>
+    <%= f.text_field :keyword, value: params[:keyword] %>
+  </div>
+
+  <div>
+    <%= f.label :category_id, "カテゴリ" %>
+    <%= f.collection_select :category_id, Category.all, :id, :name,
+        include_blank: "指定なし", selected: params[:category_id] %>
+  </div>
+
+  <div>
+    <%= f.label :min_price, "最低価格" %>
+    <%= f.number_field :min_price, value: params[:min_price] %> 円 〜
+    <%= f.label :max_price, "最高価格" %>
+    <%= f.number_field :max_price, value: params[:max_price] %> 円
+  </div>
+
+  <div>
+    <%= f.label :in_stock, "在庫ありのみ" %>
+    <%= f.check_box :in_stock, {}, "true", "false" %>
+  </div>
+
+  <div>
+    <%= f.label :sort, "並び替え" %>
+    <%= f.select :sort,
+      [["新着順", "newest"], ["価格が安い順", "price_asc"], ["価格が高い順", "price_desc"]],
+      { include_blank: "指定なし", selected: params[:sort] } %>
+  </div>
+
+  <%= f.submit "検索" %>
+<% end %>
+
+<hr>
+
+<h3>商品一覧</h3>
+<ul>
+  <% @items.each do |item| %>
+    <li>
+      <%= link_to item.name, item_path(item) %> |
+      <%= number_to_currency(item.price) %> |
+      在庫: <%= item.stock %>
+    </li>
+  <% end %>
+</ul>
+
+
     <div class="pagination-container text-center">
       <%= paginate @items %>
     </div>

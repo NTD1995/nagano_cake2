@@ -8,6 +8,11 @@ class Public::ItemsController < ApplicationController
     else
       @cart_items = []
     end
+    @items = @items.by_keyword(params[:keyword])
+    @items = @items.by_genre(params[:genre_id])
+    @items = @items.by_price_range(params[:min_price], params[:max_price])
+    @items = @items.in_stock if params[:in_stock] == "true"
+    @items = @items.sorted(params[:sort])
   end
 
   def show
