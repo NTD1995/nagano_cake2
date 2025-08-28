@@ -1,93 +1,86 @@
-<div class='container-fluid container-sidber'>
-  <div class='row no-gutters  bg-white'>
-    <div class='col-md-10'>
-      <div class="p-3 mb-2">
-      <%= content_tag :div, class: "product-header" do %>
-        <%= content_tag :span, "商品一覧", class: "header-text", style: "font-weight: bold;" %>
-        <%= content_tag :span, "（全#{@total_item_count}件）", class: "count-text" %>
-      <% end %>
-      </div>
-      <div class="row">
-        <% @items.each do |item| %>
-          <div class="col-md-3 mb-5">
-            <div class="card border-0 mx-auto mt-4" style="height: auto;">
-              <div class="card-body py-0">
-                <%= link_to item_path(item) do %>
-                  <%= image_tag item.get_image(300, 300), class: "card-img-top" %>
-                <% end %>
-                <p class="card-title"><%= item.name %></p>
-                <p class="card-text">¥<%= number_with_delimiter(item.price_excluding_tax) %></p>
-                <% if customer_signed_in? %>
-                  <% if current_customer.favorite_items.exists?(item.id) %>
-                    <%= button_to item_favorite_path(item), method: :delete, class: "favorite-button" do %>
-                      <span style="color:red;">♥</span>
-                    <% end %>
-                  <% else %>
-                    <%= button_to item_favorite_path(item), method: :post, class: "favorite-button" do %>
-                      <span style="color:gray;">♡</span>
-                    <% end %>
-                  <% end %>
-                <% end %>                 
-              </div>
+<div class="container">
+  <div class="row" style="margin: 40px 0;">
+
+    <div class="col-md-3">
+      <div class="p-3 bg-light border rounded">
+        <h5 class="mb-3">商品検索</h5>
+
+        <%= form_with url: items_path, method: :get, local: true do |f| %>
+          <div class="mb-3">
+            <%= f.label :keyword, "キーワード" %>
+            <%= f.text_field :keyword, value: params[:keyword], class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :genre_id, "ジャンル" %>
+            <%= f.collection_select :genre_id, Genre.all, :id, :name,
+                include_blank: "指定なし", selected: params[:genre_id], class: "form-select" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :min_price, "価格帯" %>
+            <div class="d-flex align-items-center">
+              <%= f.number_field :min_price, value: params[:min_price], class: "form-control", style: "width: 45%;" %>
+              <span class="mx-2">〜</span>
+              <%= f.number_field :max_price, value: params[:max_price], class: "form-control", style: "width: 45%;" %>
             </div>
           </div>
+
+          <div class="form-check mb-3">
+            <%= f.check_box :in_stock, { class: "form-check-input" }, "true", "false" %>
+            <%= f.label :in_stock, "在庫ありのみ", class: "form-check-label" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :sort, "並び替え" %>
+            <%= f.select :sort,
+              [["新着順", "newest"], ["価格が安い順", "price_asc"], ["価格が高い順", "price_desc"]],
+              { include_blank: "指定なし", selected: params[:sort] }, class: "form-select" %>
+          </div>
+
+          <%= f.submit "検索", class: "btn btn-primary w-100" %>
         <% end %>
       </div>
     </div>
 
-    <h2>商品検索</h2>
+    <div class="col-md-9">
+      <div class="title-background mb-4 p-2 bg-light rounded">
+        <h4 class="mb-0">商品一覧（全<%= @total_item_count %>件）</h4>
+      </div>
 
-<%= form_with url: items_path, method: :get, local: true do |f| %>
-  <div>
-    <%= f.label :keyword, "キーワード検索" %>
-    <%= f.text_field :keyword, value: params[:keyword] %>
-  </div>
+      <div class="row">
+        <% @items.each do |item| %>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <%= link_to item_path(item), class: "text-decoration-none text-dark" do %>
+                <%= image_tag item.get_image(300, 300), class: "card-img-top" %>
+                <div class="card-body">
+                  <h6 class="card-title"><%= item.name %></h6>
+                  <p class="card-text">¥<%= number_with_delimiter(item.price_excluding_tax) %></p>
+                </div>
+              <% end %>
 
-  <div>
-    <%= f.label :category_id, "カテゴリ" %>
-    <%= f.collection_select :category_id, Category.all, :id, :name,
-        include_blank: "指定なし", selected: params[:category_id] %>
-  </div>
+              <% if customer_signed_in? %>
+                <div class="card-footer bg-white text-end">
+                  <% if current_customer.favorite_items.exists?(item.id) %>
+                    <%= button_to item_favorite_path(item), method: :delete, class: "btn btn-sm btn-outline-danger" do %>
+                      ♥ お気に入り
+                    <% end %>
+                  <% else %>
+                    <%= button_to item_favorite_path(item), method: :post, class: "btn btn-sm btn-outline-secondary" do %>
+                      ♡ お気に入り
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
 
-  <div>
-    <%= f.label :min_price, "最低価格" %>
-    <%= f.number_field :min_price, value: params[:min_price] %> 円 〜
-    <%= f.label :max_price, "最高価格" %>
-    <%= f.number_field :max_price, value: params[:max_price] %> 円
-  </div>
-
-  <div>
-    <%= f.label :in_stock, "在庫ありのみ" %>
-    <%= f.check_box :in_stock, {}, "true", "false" %>
-  </div>
-
-  <div>
-    <%= f.label :sort, "並び替え" %>
-    <%= f.select :sort,
-      [["新着順", "newest"], ["価格が安い順", "price_asc"], ["価格が高い順", "price_desc"]],
-      { include_blank: "指定なし", selected: params[:sort] } %>
-  </div>
-
-  <%= f.submit "検索" %>
-<% end %>
-
-<hr>
-
-<h3>商品一覧</h3>
-<ul>
-  <% @items.each do |item| %>
-    <li>
-      <%= link_to item.name, item_path(item) %> |
-      <%= number_to_currency(item.price) %> |
-      在庫: <%= item.stock %>
-    </li>
-  <% end %>
-</ul>
-
-
-    <div class="pagination-container text-center">
-      <%= paginate @items %>
+      <div class="pagination-container text-center">
+        <%= paginate @items %>
+      </div>
     </div>
-
   </div>
 </div>
